@@ -1,0 +1,75 @@
+<ion-header [translucent]="true">
+  <app-header [pageTitle]="pageTitle"></app-header>
+
+  <ion-grid class="grid">
+    <ion-row>
+      <ion-col>
+        <ion-button fill="outline" color="#7c107c" routerLink="/cadastrar-colaborador">
+          Cadastrar
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button fill="clear" size="small">
+          <input type="file" (change)="onFileSelected($event)" accept=".xlsx,.xls,.csv" style="display: none" id="fileInput">
+          <ion-button (click)="openFilePicker()" fill="clear">
+            <ion-icon name="cloud-upload"></ion-icon>
+          </ion-button>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid style="font-size: 12px;">
+    <div class="o_list_view o_list_optional_columns table-responsive-lg">
+      <div class="table-responsive">
+        <table class="o_list_table table-sm table-striped o_list_table_ungrouped table">
+          <thead class="o_list_header">
+            <tr>
+              <th class="o_list_record_selector">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" id="checkbox-597" class="custom-control-input">
+                  <label for="checkbox-597" class="custom-control-label">​</label>
+                </div>
+              </th>
+              <th scope="col" title="Matrícula">Matrícula</th>
+              <th scope="col" title="Nome Completo">Nome Completo</th>
+              <th scope="col" title="Setor">Setor</th>
+              <th scope="col" title="Cargo">Cargo</th>
+              <th scope="col" title="Data de Admissão">Data de Admissão</th>
+              <th scope="col" title="E-mail">E-mail</th>
+              <th scope="col" title="Telefone">Telefone</th>
+              <th scope="col" title="Situação">Situação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let colaborador of colaboradores">
+              <tr class="o_data_row" (dblclick)="openEditar(colaborador)">
+                <td class="o_list_record_selector">
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" id="{{ colaborador.matricula }}" class="custom-control-input">
+                    <label for="{{ colaborador.matricula }}" class="custom-control-label">​</label>
+                  </div>
+                </td>
+                <td>{{ colaborador.matricula }}</td>
+                <td>{{ colaborador.nomeCompleto }}</td>
+                <td>{{ colaborador.setor }}</td>
+                <td>{{ colaborador.cargo }}</td>
+                <td>{{ colaborador.dataAdmissao }}</td>
+                <td>{{ colaborador.email }}</td>
+                <td>{{ colaborador.telefone }}</td>
+                <td>
+                  {{ colaborador.situacao }}
+                  <ion-icon [color]="getIconColor(colaborador.situacao)" name="radio-button-on"></ion-icon>
+                </td>
+             
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ion-grid>
+  
+</ion-content>

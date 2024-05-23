@@ -1,0 +1,111 @@
+<ion-header [translucent]="true">
+  <app-header [pageTitle]="pageTitle"></app-header>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button color="#7c107c" type="submit" (click)="onSubmit()">
+          SALVAR
+        </ion-button>
+        <ion-button fill="outline" color="#7c107c">
+          DESCARTAR
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="colaboradorForm" class="container mt-4">
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="matricula">Matrícula:</label>
+          <input type="text" class="form-control" name="matricula" formControlName="matricula" id="matricula" required
+            formControlName="matricula"  >
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="nomeCompleto">Nome Completo:</label>
+          <input type="text" class="form-control" id="nomeCompleto" required formControlName="nomeCompleto" name="nomeCompleto" formControlName="nomeCompleto">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="setor">Setor:</label>
+          <select class="form-control" id="setor" required formControlName="setor" name="setor" formControlName="setor">
+            <option value="">Selecione o Setor</option>
+            <option value="ASTEC (Assessoria Técnica)">ASTEC (Assessoria Técnica)</option>
+            <option value="CA (Central de Apoio)">CA (Central de Apoio)</option>
+            <option value="CADASTRO E PROTOCOLO/CAF">CADASTRO E PROTOCOLO/CAF</option>
+            <option value="CAF (Coordenação de Administração Financeira)">CAF (Coordenação de Administração Financeira)
+            </option>
+            <option value="CAP (Coordenação de análise processual)">CAP (Coordenação de análise processual)</option>
+            <option value="CEL (Comissão Especial de Licitações)">CEL (Comissão Especial de Licitações)</option>
+            <option value="CI (Controle Interno)">CI (Controle Interno)</option>
+            <option value="CPEAP (Coordenação de Pesquisa de Preços)">CPEAP (Coordenação de Pesquisa de Preços)</option>
+            <option value="CPLO (Comissão de projetos e Licitações de Obra)">CPLO (Comissão de projetos e Licitações de
+              Obra)</option>
+            <option value="CRP (Coordenação de Registro de Preço)">CRP (Coordenação de Registro de Preço)</option>
+            <option value="CTI (Coordenação de Comunicação e Avanços Tecnológicos)">CTI (Coordenação de Comunicação e
+              Avanços Tecnológicos)</option>
+            <option value="DE (Diretoria Executiva)">DE (Diretoria Executiva)</option>
+            <option value="EP (Equipe de Pregoeiros)">EP (Equipe de Pregoeiros)</option>
+            <option value="GAB (Gabinete)">GAB (Gabinete)</option>
+            <option value="GAB/RECEPÇÃO (Recepção do Gabinete)">GAB/RECEPÇÃO (Recepção do Gabinete)</option>
+            <option value="NA (Núcleo de Atendimento)">NA (Núcleo de Atendimento)</option>
+            <option value="NP (Núcleo de Processamento)">NP (Núcleo de Processamento)</option>
+          </select>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="cargo">Cargo:</label>
+          <input type="text" class="form-control" id="cargo" required formControlName="cargo" name="cargo" formControlName="cargo">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="dataAdmissao">Data de Admissão:</label>
+          <input type="date" class="form-control" id="dataAdmissao" required formControlName="dataAdmissao" name="dataAdmissao" formControlName="dataAdmissao">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input type="email" class="form-control" id="email" required formControlName="email" name="email" formControlName="email">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="telefone">Telefone:</label>
+          <input type="tel" class="form-control" id="telefone" required formControlName="telefone" name="telefone" formControlName="telefone">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label for="situacao">Situação:</label>
+          <select class="form-control" id="situacao" formControlName="situacao" name="situacao" formControlName="situacao">
+            <option value="Ativo">Ativo</option>
+            <option value="Transferido">Transferido</option>
+            <option value="Exonerado">Exonerado</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
+</ion-content>

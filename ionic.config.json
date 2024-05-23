@@ -1,0 +1,7 @@
+{
+  "name": "aion-rh",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

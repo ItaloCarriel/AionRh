@@ -1,0 +1,25 @@
+<ion-content [fullscreen]="true">
+  <form class="form" [formGroup]="loginForm">
+    <ion-list>
+      <div class="logo" style="text-align: center;">
+        <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="50" fill="#7c107c" />
+          <text x="50%" y="50%" text-anchor="middle" alignment-baseline="middle" font-family="Arial" font-size="30" font-weight="bold" fill="white">AiónRH</text>
+        </svg>
+      </div>
+      
+      <ion-input label="E-mail" formControlName="email" type="email" label-placement="floating" fill="outline"
+        placeholder="E-mail"></ion-input>
+
+      <ion-input label="Senha" formControlName="password" type="password" label-placement="floating" fill="outline"
+        placeholder="Senha"></ion-input>
+
+      <ion-button fill="outline" color="#9d3a9d" expand="block" (click)="login()">Acessar</ion-button>
+
+      <a href="recuperasenha">Esqueceu sua senha?</a>
+
+
+
+</ion-list>
+</form>
+</ion-content>
