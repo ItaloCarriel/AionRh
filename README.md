@@ -1,6 +1,6 @@
 # AionRH
 
-AionRH é uma plataforma desenvolvida para gerenciar as atividades realizadas pelos colaboradores de uma empresa, incluindo o registro de certificados e a contagem de pontos. Este projeto foi desenvolvido utilizando Angular para o front-end e Firebase Firestore como banco de dados.
+AionRH é uma plataforma desenvolvida para gerenciar as atividades realizadas pelos colaboradores de uma empresa, incluindo o registro de certificados e a contagem de pontos. Este projeto foi desenvolvido utilizando Angular e Ionic para o front-end e Firebase Firestore como banco de dados.
 
 ## Funcionalidades
 
@@ -32,16 +32,13 @@ npm install
 4. Execute o projeto localmente:
 
 ```bash
-ng serve
+ionic serve
 ```
 
 ## Contribuição
 
 Contribuições são bem-vindas! Antes de iniciar, por favor, leia o [guia de contribuição](CONTRIBUTING.md) para mais detalhes sobre como enviar solicitações pull.
 
-## Licença
-
-Este projeto é licenciado sob a [Licença MIT](LICENSE).
 
 ## Contato
 
