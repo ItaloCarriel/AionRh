@@ -4,13 +4,13 @@ import 'firebase/compat/database';
 export const environment = {
   production: true,
   firebaseConfig: {
-    projectId:"odin-tarjador",
-    appId:"1:1028957958097:web:19e6b7fa8c1c2849607af0",
-    storageBucket:"odin-tarjador.appspot.com",
-    apiKey:"AIzaSyB_3Ow7t_XV3Rw04DIj-sBDbIfYDJhpbjc",
-    authDomain:"odin-tarjador.firebaseapp.com",
-    messagingSenderId:"1028957958097",
-    measurementId:"G-E6FDH1WQ4X"
+    apiKey: "AIzaSyDdpN7h4TU0vjznA2FqD5nz5qvsd4i6utQ",
+  authDomain: "aionrh-df4df.firebaseapp.com",
+  projectId: "aionrh-df4df",
+  storageBucket: "aionrh-df4df.appspot.com",
+  messagingSenderId: "186928834608",
+  appId: "1:186928834608:web:b5b3825772b18b506d65f5",
+  measurementId: "G-2FVLPTQ05T"
   }
 };
 

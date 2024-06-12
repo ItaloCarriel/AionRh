@@ -40,6 +40,7 @@ export class CadastroPage implements OnInit {
       previstoPAC: ['', Validators.required],
       cargaHoraria: ['', Validators.required],
       pontuacao: [{ '': '', disabled: true }],
+      nota: [''],
       dataAtividade: ['', Validators.required],
       avaliacao: ['']
     });
@@ -50,6 +51,26 @@ export class CadastroPage implements OnInit {
       this.colaboradores = data;
       console.log('Colaboradores carregados:', this.colaboradores);
     });
+  }
+  onCategoriaChange() {
+    const categoria = this.avaliacaoForm.get('categoria')?.value;
+    const cargaHorariaControl = this.avaliacaoForm.get('cargaHoraria');
+    const pontuacaoControl = this.avaliacaoForm.get('pontuacao');
+    const notaControl = this.avaliacaoForm.get('nota');
+
+    if (categoria === 'Inovação') {
+      cargaHorariaControl?.clearValidators();
+      pontuacaoControl?.clearValidators();
+      notaControl?.setValidators([Validators.required]);
+    } else {
+      cargaHorariaControl?.setValidators([Validators.required]);
+      pontuacaoControl?.setValidators([Validators.required]);
+      notaControl?.clearValidators();
+    }
+
+    cargaHorariaControl?.updateValueAndValidity();
+    pontuacaoControl?.updateValueAndValidity();
+    notaControl?.updateValueAndValidity();
   }
 
  async onSubmit() {

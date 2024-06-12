@@ -1,65 +1,25 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { EditarRendimentosComponent } from './editar-rendimento.component';
-import { RouterModule, Routes } from '@angular/router';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: EditarRendimentosComponent
-  }
-];
+import { EditarRendimentoComponent } from './editar-rendimento.component';
+import { EditarRendimentoRoutingModule } from './editar-rendimento-routing.module';
+import { HeaderComponent } from 'src/app/header/header.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [EditarRendimentosComponent]
+    declarations: [EditarRendimentoComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IonicModule,
+        EditarRendimentoRoutingModule,
+        HeaderComponent
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class EditarRendimentosModule { }
+export class EditarRendimentoModule { }
 
 
 
-// import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { Routes, RouterModule } from '@angular/router';
-// import { IonicModule } from '@ionic/angular';
-// import { EditarComponent } from './editar-rendimento.component';
 
-// const routes: Routes = [
-//   {
-//     path: '',
-//     component: EditarComponent
-//   }
-// ];
-
-// @NgModule({
-//   imports: [
-//     CommonModule,
-//     FormsModule,
-//     IonicModule,
-//     RouterModule.forChild(routes)
-//   ],
-//   declarations: [EditarComponent]
-// })
-// export class EditarAvaliacaoModule { }
-
-
-// import { NgModule } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-
-
-
-// @NgModule({
-//   declarations: [],
-//   imports: [
-//     CommonModule
-//   ]
-// })
-// export class EditarAvaliacaoModule { }

@@ -13,6 +13,7 @@ export interface Avaliacao {
   dataAtividade: string;
   avaliacao: string;
   colaborador: string;
+  nota:number;
 }
 
 interface Categorias {
@@ -39,10 +40,17 @@ export class InformacoesRendimentosPage implements OnInit {
   }
 
   carregarAvaliacoes() {
-    this.firestore.collection<Avaliacao>('avaliacaoAtividades').valueChanges().subscribe((avaliacoes) => {
-      this.avaliacoes = avaliacoes;
-      this.ordenarAvaliacoesPorPontuacao();
+    this.firestore.collection<Avaliacao>('avaliacaoAtividades').snapshotChanges().subscribe((avaliacoes) => {
+       this.avaliacoes = avaliacoes.map(a => {
+        const data = a.payload.doc.data() as Avaliacao;
+        const id = a.payload.doc.id;
+        const { id: dataId, ...rest } = data;
+        return { id, ...rest };
+      });
+       console.log(this.avaliacoes)
+      // this.ordenarAvaliacoesPorPontuacao();
     });
+
   }
 
   ordenarAvaliacoesPorPontuacao() {
@@ -50,7 +58,8 @@ export class InformacoesRendimentosPage implements OnInit {
   }
 
   editarAvaliacao(avaliacao: Avaliacao) {
-    this.router.navigate(['/editar-rendimento', avaliacao.id]);
+    debugger
+    this.router.navigate(['/editar-rendimento', avaliacao]);
   }
 
   async openPopover(ev: any) {

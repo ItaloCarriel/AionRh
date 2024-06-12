@@ -19,11 +19,7 @@ const routes: Routes = [
   {
     path: 'editar-colaborador/:id',
     loadChildren: () => import('./editar/editar.module').then( m => m.EditarPageModule)
-  },
-
-
-  
-  
+  }
 
 ];
 

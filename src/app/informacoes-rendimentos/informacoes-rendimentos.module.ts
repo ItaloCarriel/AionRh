@@ -18,6 +18,6 @@ import { HeaderComponent } from '../header/header.component';
     IonicModule,
     InformacoesRendimentosPageRoutingModule
   ],
-  declarations: [InformacoesRendimentosPage]
+  declarations: [InformacoesRendimentosPage,]
 })
 export class InformacoesRendimentosPageModule {}
