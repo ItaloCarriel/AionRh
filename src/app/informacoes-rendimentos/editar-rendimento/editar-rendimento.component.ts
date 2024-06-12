@@ -1,57 +1,70 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AlertController, ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { ActivatedRoute } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController } from '@ionic/angular';
+import { Colaborador } from '../cadastro/cadastro.page';
 
-
-export interface Colaborador {
+interface Avaliacao {
   id: string;
-  nomeCompleto: string;
-  matricula: string;
-  cargo: string;
-  setor: string;
-  email: string;
-  telefone: string;
-  dataAdmissao: Date;
-  situacao: string;
+  categoria: string;
+  previstoPAC: string;
+  cargaHoraria: string;
+  pontuacao: number;
+  dataAtividade: string;
+  colaborador: string;
 }
 
 @Component({
-  selector: 'app-cadastro',
-  templateUrl: './cadastro.page.html',
-  styleUrls: ['./cadastro.page.scss'],
+  selector: 'app-editar-rendimento',
+  templateUrl: './editar-rentimento.page.html',
+  styleUrls: ['./editar-rendimento.component.scss'],
 })
-export class CadastroPage implements OnInit {
-  pageTitle: string = 'Registro de Avaliações';
-  colaboradores: Colaborador[] = [];
+export class EditarRendimentoComponent implements OnInit {
+  pageTitle: string = 'Editar Rendimento';
   avaliacaoForm: FormGroup;
+  avaliacaoId: string = '';
+  colaboradores: Colaborador[] = [];
 
   constructor(
+    private route: ActivatedRoute,
     private firestore: AngularFirestore,
     private formBuilder: FormBuilder,
-    private alertController: AlertController
+    private alertController: AlertController,
   ) {
     this.avaliacaoForm = this.formBuilder.group({
-      colaborador: ['', Validators.required],
-      setor: [{ '': '', disabled: true }],
+      setor: [{ value: '', disabled: true }],
       categoria: ['', Validators.required],
       previstoPAC: ['', Validators.required],
       cargaHoraria: ['', Validators.required],
-      pontuacao: [{ '': '', disabled: true }],
-      nota: [''],
+      pontuacao: ['', [Validators.required, Validators.min(0)]],
       dataAtividade: ['', Validators.required],
-      avaliacao: ['']
+      colaborador: ['', Validators.required],
+      avaliacao: [''],
+      nota: [''],
     });
   }
 
   ngOnInit() {
-    this.firestore.collection<Colaborador>('colaboradores').valueChanges().subscribe(data => {
-      this.colaboradores = data;
-      console.log('Colaboradores carregados:', this.colaboradores);
+    this.avaliacaoId = this.route.snapshot.paramMap.get('id')!;
+    this.loadAvaliacaoData();
+    this.loadColaboradores();
+  }
+
+  loadAvaliacaoData() {
+    this.firestore.doc<Avaliacao[]>(`avaliacaoAtividades/${this.avaliacaoId}`).valueChanges().subscribe(data => {
+      if (data) {
+        this.avaliacaoForm.patchValue(data);
+      }
     });
   }
+
+  loadColaboradores() {
+    this.firestore.collection<Colaborador>('colaboradores').valueChanges().subscribe(data => {
+      this.colaboradores = data;
+    });
+  }
+
   onCategoriaChange() {
     const categoria = this.avaliacaoForm.get('categoria')?.value;
     const cargaHorariaControl = this.avaliacaoForm.get('cargaHoraria');
@@ -73,39 +86,6 @@ export class CadastroPage implements OnInit {
     notaControl?.updateValueAndValidity();
   }
 
- async onSubmit() {
-    console.log('Tentando enviar dados do formulário...');
-    if (this.avaliacaoForm.valid) {
-      console.log('Formulário válido, enviando dados...');
-      const formData = this.avaliacaoForm.value;
-      try {
-        await this.firestore.collection('avaliacaoAtividades').add(formData);
-        console.log('Dados salvos com sucesso!');
-        const alert = await this.alertController.create({
-          header: 'Sucesso',
-          message: 'Atividade cadastrada com sucesso!',
-          buttons: ['OK']
-        });
-        await alert.present();
-      } catch (error) {
-        console.error('Erro ao salvar os dados:', error);
-        const alert = await this.alertController.create({
-          header: 'Erro',
-          message: 'Ocorreu um erro ao salvar os dados. Por favor, tente novamente.',
-          buttons: ['OK']
-        });
-        await alert.present();
-      }
-    } else {
-      console.log('Formulário inválido, não é possível enviar dados.');
-      const alert = await this.alertController.create({
-        header: 'Erro',
-        message: 'Por favor, preencha todos os campos obrigatórios.',
-        buttons: ['OK']
-      });
-      await alert.present();
-    }
-  }
 
   calcularPontuacao() {
     console.log('Calculando pontuação...');
@@ -155,22 +135,35 @@ export class CadastroPage implements OnInit {
     }
   }
 
-  async presentSuccessAlert() {
-    const alert = await this.alertController.create({
-      header: 'Sucesso!',
-      message: 'Atividade cadastrado com sucesso.',
-      buttons: ['OK']
-    });
-    await alert.present();
+  async update() {
+    if (this.avaliacaoForm.valid) {
+      try {
+        await this.firestore.doc(`avaliacaoAtividades/${this.avaliacaoId}`).update(this.avaliacaoForm.value);
+        const alert = await this.alertController.create({
+          header: 'Sucesso',
+          message: 'Rendimento atualizado com sucesso!',
+          buttons: ['OK']
+        });
+        await alert.present();
+      } catch (error) {
+        const alert = await this.alertController.create({
+          header: 'Erro',
+          message: 'Ocorreu um erro ao atualizar os dados. Por favor, tente novamente.',
+          buttons: ['OK']
+        });
+        await alert.present();
+      }
+    } else {
+      const alert = await this.alertController.create({
+        header: 'Erro',
+        message: 'Por favor, preencha todos os campos obrigatórios.',
+        buttons: ['OK']
+      });
+      await alert.present();
+    }
   }
 
-  async presentErrorAlert(message: string) {
-    const alert = await this.alertController.create({
-      header: 'Erro!',
-      message: message,
-      buttons: ['OK']
-    });
-    await alert.present();
+  discardChanges() {
+    this.loadAvaliacaoData(); // Recarrega os dados originais
   }
-
 }

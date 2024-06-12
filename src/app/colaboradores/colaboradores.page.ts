@@ -44,11 +44,11 @@ export class ColaboradoresPage implements OnInit {
         const { id: dataId, ...rest } = data;
         return { id, ...rest };
       });
-    }); 
+    });
   }
 
 
-  
+
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     this.cadastroColaboradorPlanilha(file);
@@ -83,5 +83,5 @@ export class ColaboradoresPage implements OnInit {
         return '';
     }
   }
-  
+
 }

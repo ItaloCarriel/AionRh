@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './servicos/auth-guard.service';
+import { EditarRendimentoComponent } from './informacoes-rendimentos/editar-rendimento/editar-rendimento.component';
 
 
 const routes: Routes = [
@@ -49,7 +51,13 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
     canActivate: [AuthGuardService]
-  }
+  },
+  {
+    path: 'editar-rendimento',
+    component: EditarRendimentoComponent,
+    // loadChildren: () => import('./informacoes-rendimentos/editar-rendimento/editar-rendimento.component').then(m => m.EditarRendimentoComponent),
+    // canActivate: [AuthGuardService]
+    }
 ];
 
 @NgModule({

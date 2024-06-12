@@ -11,7 +11,7 @@ import { IonicModule } from '@ionic/angular';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-     
+
   ],
   providers: [
   ],
@@ -23,6 +23,6 @@ export class HeaderComponent  implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+   ngOnInit(){}
 
 }

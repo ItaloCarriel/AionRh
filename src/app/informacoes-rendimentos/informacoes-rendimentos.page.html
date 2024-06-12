@@ -35,15 +35,14 @@
               <th scope="col" title="Nome Completo">Colaborador</th>
               <th scope="col" title="Categoria">Categoria</th>
               <th scope="col" title="Capacitação Prevista no PAC">Capacitação Prevista no PAC</th>
-              <th scope="col" title="Carga Horária">Carga Horária</th>
+              <th scope="col" title="Carga Horária">Carga Horária/Notas</th>
               <th scope="col" title="Pontuação">Pontuação</th>
               <th scope="col" title="Data Atividade">Data Atividade</th>
-           
             </tr>
           </thead>
           <tbody>
             <ng-container *ngFor="let avaliacao of avaliacoes">
-              <tr class="o_data_row" (dblclick)="editarAvaliacao(avaliacao)">
+              <tr class="o_data_row" (click)="editarAvaliacao(avaliacao)">
                 <td class="o_list_record_selector">
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" id="{{ avaliacao.id }}" class="custom-control-input">
@@ -53,10 +52,9 @@
                 <td>{{ avaliacao.colaborador }}</td>
                 <td ><p [ngClass]="getCategoriaClass(avaliacao.categoria)">{{ avaliacao.categoria }}</p></td>
                 <td>{{ avaliacao.previstoPAC }}</td>
-                <td>{{ avaliacao.cargaHoraria }}</td>
+                <td>{{ avaliacao.cargaHoraria }}{{ avaliacao.nota }}</td>
                 <td>{{ avaliacao.pontuacao }}</td>
                 <td>{{ avaliacao.dataAtividade }}</td>
-        
               </tr>
             </ng-container>
           </tbody>
@@ -64,6 +62,6 @@
       </div>
     </div>
   </ion-grid>
-  
+
 
 </ion-content>
