@@ -184,7 +184,14 @@ export class InformacoesRendimentosPage implements OnInit {
     }, {});
 
     for (const categoria in categorias) {
-        const top3 = categorias[categoria].sort((a, b) => b.pontuacao - a.pontuacao).slice(0, 3);
+        const top3 = categorias[categoria].sort((a, b) => {
+            if (categoria === 'Inovação') {
+                return b.nota - a.nota;
+            } else {
+                return b.pontuacao - a.pontuacao;
+            }
+        }).slice(0, 3);
+
         reportContent += `
         <h2>${categoria}</h2>
         <table>
@@ -205,7 +212,7 @@ export class InformacoesRendimentosPage implements OnInit {
                     ${index + 1}°
                 </td>
                 <td>${categoria === 'Liderança' ? avaliacao.setor : avaliacao.colaborador}</td>
-                <td>${avaliacao.pontuacao}</td>
+                <td>${categoria === 'Inovação' ? avaliacao.nota : avaliacao.pontuacao}</td>
             </tr>`;
         });
 
