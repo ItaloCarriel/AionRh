@@ -14,6 +14,7 @@ export interface Avaliacao {
   avaliacao: string;
   colaborador: string;
   nota:number;
+  setor:string;
 }
 
 interface Categorias {
@@ -47,8 +48,7 @@ export class InformacoesRendimentosPage implements OnInit {
         const { id: dataId, ...rest } = data;
         return { id, ...rest };
       });
-       console.log(this.avaliacoes)
-      // this.ordenarAvaliacoesPorPontuacao();
+       this.ordenarAvaliacoesPorPontuacao();
     });
 
   }
@@ -58,8 +58,16 @@ export class InformacoesRendimentosPage implements OnInit {
   }
 
   editarAvaliacao(avaliacao: Avaliacao) {
-    debugger
     this.router.navigate(['/editar-rendimento', avaliacao]);
+  }
+
+  excluirAvaliacao(id: string, event: Event) {
+    event.stopPropagation();
+    this.firestore.collection('avaliacaoAtividades').doc(id).delete().then(() => {
+      console.log('Avaliação excluída com sucesso');
+    }).catch(error => {
+      console.error('Erro ao excluir avaliação: ', error);
+    });
   }
 
   async openPopover(ev: any) {
@@ -89,10 +97,9 @@ export class InformacoesRendimentosPage implements OnInit {
 
     this.printReport(reportContent);
   }
+
   generateRankingReport(): string {
-    const rankIcons: {
-        [key: number]: string;
-    } = {
+    const rankIcons: { [key: number]: string } = {
         1: '../../assets/icon/ranktop1.png',
         2: '../../assets/icon/ranktop2.png',
         3: '../../assets/icon/ranktop3.png'
@@ -143,13 +150,13 @@ export class InformacoesRendimentosPage implements OnInit {
         height: auto;
         vertical-align: middle;
     }
-    .icons{
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-    align-items: center;
-    text-align: center;
-    align-content: center;
+    .icons {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        align-items: center;
+        text-align: center;
+        align-content: center;
     }
     </style>
     <div class="header">
@@ -184,7 +191,7 @@ export class InformacoesRendimentosPage implements OnInit {
             <thead>
                 <tr>
                     <th>Rank</th>
-                    <th>Colaborador</th>
+                    <th>${categoria === 'Liderança' ? 'Setor' : 'Colaborador'}</th>
                     <th>Pontuação</th>
                 </tr>
             </thead>
@@ -197,7 +204,7 @@ export class InformacoesRendimentosPage implements OnInit {
                     <img src="${rankIcons[index + 1]}" alt="Ícone do Top ${index + 1}" class="rank-icon">
                     ${index + 1}°
                 </td>
-                <td>${avaliacao.colaborador}</td>
+                <td>${categoria === 'Liderança' ? avaliacao.setor : avaliacao.colaborador}</td>
                 <td>${avaliacao.pontuacao}</td>
             </tr>`;
         });
@@ -221,106 +228,6 @@ export class InformacoesRendimentosPage implements OnInit {
 
     return reportContent;
 }
-
-//   generateRankingReport(): string {
-//     let reportContent = `
-//     <style>
-//     body {
-//       font-family: 'Lexend', "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-//       font-size: 12px;
-//     }
-//     @page {
-//       size: A4;
-//       margin: 3cm 2cm 2cm 3cm;
-//     }
-//     table {
-//       width: 100%;
-//       border-collapse: collapse;
-//       font-family: 'Lexend', "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-//       font-size: 12px;
-//     }
-//     th, td {
-//       border: 1px solid #dddddd;
-//       text-align: left;
-//     }
-//     th {
-//       background-color: #f2f2f2;
-//     }
-//     .header {
-//       text-align: center;
-//       font-size: 12px;
-//       font-weight: bold;
-//     }
-//     h1 {
-//       font-size: 12px;
-//     }
-//     .introduction {
-//       margin-top: 20px;
-//       margin-bottom: 20px;
-//     }
-//     .footer {
-//       margin-top: 20px;
-//       text-align: center;
-//     }
-//     </style>
-//     <div class="header">
-//       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDXRe7PKFUR5gv7q6Bqq2RNyw1lyyCE7DbaaoQRd6I5w&s" alt="Brasão" style="width: 70px; height: auto;">
-//       <h1>GOVERNO DO ESTADO DE RONDÔNIA</h1>
-//       <h1>Superintendência Estadual de Compras e Licitações</h1>
-//       <br>
-//       <h1>RELATÓRIO DE RANKING POR CATEGORIA</h1>
-//     </div>
-//     <div class="introduction">
-//       <p>
-//         Prezados Senhores,
-//       </p>
-//       <p>
-//         É com satisfação que apresentamos o Relatório de Ranking por Categoria, destacando os três melhores colaboradores em cada categoria, de acordo com suas pontuações.
-//       </p>
-//     </div>
-//     <table>
-//       <thead>
-//         <tr>
-//           <th>Categoria</th>
-//           <th>Colaborador</th>
-//           <th>Pontuação</th>
-//         </tr>
-//       </thead>
-//       <tbody>`;
-
-
-//       const categorias = this.avaliacoes.reduce((acc: { [key: string]: Avaliacao[] }, avaliacao) => {
-//         if (!acc[avaliacao.categoria]) {
-//           acc[avaliacao.categoria] = [];
-//         }
-//         acc[avaliacao.categoria].push(avaliacao);
-//         return acc;
-//       }, {});
-
-//     Iterar sobre cada categoria e pegar o top 3
-//     for (const categoria in categorias) {
-//       const top3 = categorias[categoria].sort((a, b) => b.pontuacao - a.pontuacao).slice(0, 3);
-//       top3.forEach(avaliacao => {
-//         reportContent += `<tr><td>${categoria}</td><td>${avaliacao.colaborador}</td><td>${avaliacao.pontuacao}</td></tr>`;
-//       });
-//     }
-
-//     reportContent += `
-//       </tbody>
-//     </table>
-//     <div class="footer">
-//       <p>
-//         Supel - Superintendência Estadual de Licitações<br>
-//         Localizado em: Palácio Rio Madeira<br>
-//         Endereço: Edifício Rio Pacaás Novos, Av. Farquar, 2986 - Pedrinhas, Porto Velho - RO, 76801-470<br>
-//         Telefone: (69) 3216-5318<br>
-//         Página: <span class="pageNumber"></span><br>
-//         Data e hora de impressão: <span class="printDateTime"></span>
-//       </p>
-//     </div>`;
-//     return reportContent;
-// }
-
 
   generatePontuacaoReport(): string {
     let reportContent = `
