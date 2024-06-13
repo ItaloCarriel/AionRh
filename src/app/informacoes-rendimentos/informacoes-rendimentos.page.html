@@ -55,6 +55,11 @@
                 <td>{{ avaliacao.cargaHoraria }}{{ avaliacao.nota }}</td>
                 <td>{{ avaliacao.pontuacao }}</td>
                 <td>{{ avaliacao.dataAtividade }}</td>
+                <td>
+                  <ion-button fill="clear" color="danger" (click)="excluirAvaliacao(avaliacao.id, $event)">
+                    <ion-icon name="trash"></ion-icon>
+                  </ion-button>
+                </td>
               </tr>
             </ng-container>
           </tbody>
