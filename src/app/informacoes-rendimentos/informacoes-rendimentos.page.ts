@@ -184,7 +184,14 @@ export class InformacoesRendimentosPage implements OnInit {
     }, {});
 
     for (const categoria in categorias) {
-        const top3 = categorias[categoria].sort((a, b) => b.pontuacao - a.pontuacao).slice(0, 3);
+        const top3 = categorias[categoria].sort((a, b) => {
+            if (categoria === 'Inovação') {
+                return b.nota - a.nota;
+            } else {
+                return b.pontuacao - a.pontuacao;
+            }
+        }).slice(0, 3);
+
         reportContent += `
         <h2>${categoria}</h2>
         <table>
@@ -205,7 +212,7 @@ export class InformacoesRendimentosPage implements OnInit {
                     ${index + 1}°
                 </td>
                 <td>${categoria === 'Liderança' ? avaliacao.setor : avaliacao.colaborador}</td>
-                <td>${avaliacao.pontuacao}</td>
+                <td>${categoria === 'Inovação' ? avaliacao.nota : avaliacao.pontuacao}</td>
             </tr>`;
         });
 
@@ -335,7 +342,7 @@ export class InformacoesRendimentosPage implements OnInit {
     th, td {
       border: 1px solid #dddddd;
       text-align: left;
-
+      padding: 8px;
     }
     th {
       background-color: #f2f2f2;
@@ -373,17 +380,24 @@ export class InformacoesRendimentosPage implements OnInit {
       </p>
     </div>
     <table>
-<thead><tr><th>Categoria</th><th>Colaborador</th>
-<th>Pontuação</th>
-</tr>       </thead>
-<tbody>
-
-`;
-
+      <thead>
+        <tr>
+          <th>Categoria</th>
+          <th>Colaborador</th>
+          <th>${this.avaliacoes.some(avaliacao => avaliacao.categoria === 'Inovação') ? 'Pontuação/Nota' : 'Pontuação'}</th>
+        </tr>
+      </thead>
+      <tbody>`;
 
     this.avaliacoes.forEach((avaliacao) => {
-      reportContent += `<tr><td>${avaliacao.categoria}</td><td>${avaliacao.colaborador}</td><td>${avaliacao.pontuacao}</td></tr>`;
+        reportContent += `
+        <tr>
+          <td>${avaliacao.categoria}</td>
+          <td>${avaliacao.colaborador}</td>
+          <td>${avaliacao.categoria === 'Inovação' ? avaliacao.nota : avaliacao.pontuacao}</td>
+        </tr>`;
     });
+
     reportContent += `
       </tbody>
     </table>
@@ -397,8 +411,9 @@ export class InformacoesRendimentosPage implements OnInit {
         Data e hora de impressão: <span class="printDateTime"></span>
       </p>
     </div>`;
+
     return reportContent;
-  }
+}
 
   printReport(reportContent: string) {
     const newWindow = window.open('', '_blank', 'width=800, height=600');
