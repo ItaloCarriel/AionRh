@@ -71,6 +71,16 @@ export class ColaboradoresPage implements OnInit {
     this.router.navigate(['/editar-colaborador', colaborador.id]);
 
   }
+
+  excluirColaborador(id: string, event: Event) {
+    event.stopPropagation();
+    this.firestore.collection('colaboradores').doc(id).delete().then(() => {
+      console.log('Colaborador excluído com sucesso');
+    }).catch(error => {
+      console.error('Erro ao excluir colaborador: ', error);
+    });
+  }
+
   getIconColor(situacao: string): string {
     switch (situacao) {
       case 'Ativo':
