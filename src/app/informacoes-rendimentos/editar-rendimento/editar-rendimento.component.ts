@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import { Colaborador } from '../cadastro/cadastro.page';
+import { Location } from '@angular/common';
 
 interface Avaliacao {
   id: string;
@@ -31,6 +32,7 @@ export class EditarRendimentoComponent implements OnInit {
     private firestore: AngularFirestore,
     private formBuilder: FormBuilder,
     private alertController: AlertController,
+    private location: Location
   ) {
     this.avaliacaoForm = this.formBuilder.group({
       setor: [{ value: '', disabled: true }],
@@ -57,6 +59,9 @@ export class EditarRendimentoComponent implements OnInit {
         this.avaliacaoForm.patchValue(data);
       }
     });
+  }
+  async discardForm() {
+    this.location.back()
   }
 
   loadColaboradores() {
