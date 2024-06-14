@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../popover/popover.component';
@@ -40,17 +40,37 @@ export class InformacoesRendimentosPage implements OnInit {
     this.carregarAvaliacoes();
   }
 
-  carregarAvaliacoes() {
-    this.firestore.collection<Avaliacao>('avaliacaoAtividades').snapshotChanges().subscribe((avaliacoes) => {
-       this.avaliacoes = avaliacoes.map(a => {
+  carregarAvaliacoes(dataInicio?: string, dataFim?: string) {
+    let query: AngularFirestoreCollection<Avaliacao>;
+
+    if (dataInicio && dataFim) {
+      const startDate = new Date(`${dataInicio}T00:00:00.000Z`);
+      const endDate = new Date(`${dataFim}T23:59:59.999Z`);
+
+      query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
+        ref.where('dataAtividade', '>=', startDate.toISOString()).where('dataAtividade', '<=', endDate.toISOString())
+      );
+    } else {
+      query = this.firestore.collection<Avaliacao>('avaliacaoAtividades');
+    }
+
+    query.snapshotChanges().subscribe(avaliacoes => {
+      this.avaliacoes = avaliacoes.map(a => {
         const data = a.payload.doc.data() as Avaliacao;
         const id = a.payload.doc.id;
-        const { id: dataId, ...rest } = data;
-        return { id, ...rest };
+        return { ...data, id };
       });
-       this.ordenarAvaliacoesPorPontuacao();
+      this.ordenarAvaliacoesPorPontuacao();
     });
+  }
 
+  filtrarAvaliacoes(form: any) {
+    const { dataInicio, dataFinal } = form;
+    if (dataInicio && dataFinal) {
+      this.carregarAvaliacoes(dataInicio, dataFinal);
+    } else {
+      this.carregarAvaliacoes();
+    }
   }
 
   ordenarAvaliacoesPorPontuacao() {

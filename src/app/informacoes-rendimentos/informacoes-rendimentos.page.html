@@ -5,7 +5,7 @@
     <ion-row>
       <ion-col>
         <ion-button fill="outline" color="#7c107c" routerLink="/criar-avaliacao">
-            CRIAR
+          CRIAR
         </ion-button>
       </ion-col>
       <ion-col>
@@ -18,54 +18,85 @@
     </ion-row>
   </ion-grid>
 </ion-header>
-<ion-content [fullscreen]="true">
+<ion-content >
 
-  <ion-grid style="font-size: 12px;">
-    <div class="o_list_view o_list_optional_columns table-responsive-lg">
-      <div class="table-responsive">
-        <table class="o_list_table table-sm table-striped o_list_table_ungrouped table">
-          <thead class="o_list_header">
-            <tr>
-              <th class="o_list_record_selector">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" id="checkbox-597" class="custom-control-input">
-                  <label for="checkbox-597" class="custom-control-label">​</label>
-                </div>
-              </th>
-              <th scope="col" title="Nome Completo">Colaborador</th>
-              <th scope="col" title="Categoria">Categoria</th>
-              <th scope="col" title="Capacitação Prevista no PAC">Capacitação Prevista no PAC</th>
-              <th scope="col" title="Carga Horária">Carga Horária/Notas</th>
-              <th scope="col" title="Pontuação">Pontuação</th>
-              <th scope="col" title="Data Atividade">Data Atividade</th>
-            </tr>
-          </thead>
-          <tbody>
-            <ng-container *ngFor="let avaliacao of avaliacoes">
-              <tr class="o_data_row" (click)="editarAvaliacao(avaliacao)">
-                <td class="o_list_record_selector">
+    <form #filtroForm="ngForm" (ngSubmit)="filtrarAvaliacoes(filtroForm.value)">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label>Data de Início</ion-label>
+              <input  type="date" class="calendario"  name="dataInicio" ngModel/>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item>
+              <ion-label>Data de Fim</ion-label>
+              <input  type="date" class="calendario"  name="dataFinal" ngModel/>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-button type="submit" class="filtrar" fill="clear" size="small">
+              Filtrar
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+
+  <ion-content [fullscreen]="true">
+    <ion-grid style="font-size: 12px">
+      <div class="o_list_view o_list_optional_columns table-responsive-lg">
+        <div class="table-responsive">
+          <table class="o_list_table table-sm table-striped o_list_table_ungrouped table">
+            <thead class="o_list_header">
+              <tr>
+                <th class="o_list_record_selector">
                   <div class="custom-control custom-checkbox">
-                    <input type="checkbox" id="{{ avaliacao.id }}" class="custom-control-input">
-                    <label for="{{ avaliacao.id }}" class="custom-control-label">​</label>
+                    <input type="checkbox" id="checkbox-597" class="custom-control-input" />
+                    <label for="checkbox-597" class="custom-control-label">​</label>
                   </div>
-                </td>
-                <td>{{ avaliacao.colaborador }}</td>
-                <td ><p [ngClass]="getCategoriaClass(avaliacao.categoria)">{{ avaliacao.categoria }}</p></td>
-                <td>{{ avaliacao.previstoPAC }}</td>
-                <td>{{ avaliacao.cargaHoraria }}{{ avaliacao.nota }}</td>
-                <td>{{ avaliacao.pontuacao }}</td>
-                <td>{{ avaliacao.dataAtividade }}</td>
-                <td>
-                  <ion-button fill="clear" color="danger" (click)="excluirAvaliacao(avaliacao.id, $event)">
-                    <ion-icon name="trash"></ion-icon>
-                  </ion-button>
-                </td>
+                </th>
+                <th scope="col" title="Nome Completo">Colaborador</th>
+                <th scope="col" title="Categoria">Categoria</th>
+                <th scope="col" title="Capacitação Prevista no PAC">
+                  Capacitação Prevista no PAC
+                </th>
+                <th scope="col" title="Carga Horária">Carga Horária/Notas</th>
+                <th scope="col" title="Pontuação">Pontuação</th>
+                <th scope="col" title="Data Atividade">Data Atividade</th>
               </tr>
-            </ng-container>
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let avaliacao of avaliacoes">
+                <tr class="o_data_row" (click)="editarAvaliacao(avaliacao)">
+                  <td class="o_list_record_selector">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" id="{{ avaliacao.id }}" class="custom-control-input" />
+                      <label for="{{ avaliacao.id }}" class="custom-control-label">​</label>
+                    </div>
+                  </td>
+                  <td>{{ avaliacao.colaborador }}</td>
+                  <td>
+                    <p [ngClass]="getCategoriaClass(avaliacao.categoria)">
+                      {{ avaliacao.categoria }}
+                    </p>
+                  </td>
+                  <td>{{ avaliacao.previstoPAC }}</td>
+                  <td>{{ avaliacao.cargaHoraria }}{{ avaliacao.nota }}</td>
+                  <td>{{ avaliacao.pontuacao }}</td>
+                  <td>{{ avaliacao.dataAtividade }}</td>
+                  <td>
+                    <ion-button fill="clear" color="danger" (click)="excluirAvaliacao(avaliacao.id, $event)">
+                      <ion-icon name="trash"></ion-icon>
+                    </ion-button>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  </ion-grid>
-
+    </ion-grid>
+  </ion-content>
 </ion-content>
