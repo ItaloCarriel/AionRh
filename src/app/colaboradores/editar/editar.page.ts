@@ -52,10 +52,16 @@ export class EditarPage implements OnInit {
   }
 
   loadColaboradorData() {
+    debugger
     this.firestore.doc<Colaborador>(`colaboradores/${this.colaboradorId}`).valueChanges().subscribe(data => {
       if (data) {
-        this.phone = data.telefone
-        this.colaboradorForm.patchValue(data);
+        const ColaboradorData = {
+          ...data,
+          telefone: this.phone,
+          setor: data.setor.trim()
+        }
+
+        this.colaboradorForm.patchValue(ColaboradorData);
       }
     });
   }
@@ -135,7 +141,7 @@ export class EditarPage implements OnInit {
   }
 
   async discardChanges() {
-   /*  await this.loadColaboradorData(); // Recarrega os dados originais */
+    /*  await this.loadColaboradorData(); // Recarrega os dados originais */
     this.location.back();
   }
 }
