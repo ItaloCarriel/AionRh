@@ -63,6 +63,11 @@
                   {{ colaborador.situacao }}
                   <ion-icon [color]="getIconColor(colaborador.situacao)" name="radio-button-on"></ion-icon>
                 </td>
+                <td>
+                  <ion-button fill="clear" color="danger" (click)="excluirColaborador(colaborador.id, $event)">
+                    <ion-icon name="trash"></ion-icon>
+                  </ion-button>
+                </td>
 
               </tr>
             </ng-container>
