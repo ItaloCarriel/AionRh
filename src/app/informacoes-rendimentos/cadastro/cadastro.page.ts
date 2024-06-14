@@ -1,10 +1,9 @@
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { ActivatedRoute } from '@angular/router';
-
 
 export interface Colaborador {
   id: string;
@@ -31,7 +30,9 @@ export class CadastroPage implements OnInit {
   constructor(
     private firestore: AngularFirestore,
     private formBuilder: FormBuilder,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private location: Location,
+    private router: Router
   ) {
     this.avaliacaoForm = this.formBuilder.group({
       colaborador: ['', Validators.required],
@@ -84,7 +85,12 @@ export class CadastroPage implements OnInit {
         const alert = await this.alertController.create({
           header: 'Sucesso',
           message: 'Atividade cadastrada com sucesso!',
-          buttons: ['OK']
+          buttons: [{
+            text: 'OK',
+            handler: () => {
+              this.router.navigate(['/informacoes-rendimentos']);
+            }
+          }]
         });
         await alert.present();
       } catch (error) {
@@ -153,6 +159,10 @@ export class CadastroPage implements OnInit {
           }
         });
     }
+  }
+
+  async discardForm() {
+    this.location.back()
   }
 
   async presentSuccessAlert() {
