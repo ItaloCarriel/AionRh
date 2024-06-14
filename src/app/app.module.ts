@@ -4,16 +4,15 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
+import { AuthService } from './servicos/auth-service.service';
 
 
 @NgModule({
@@ -21,11 +20,12 @@ import { HeaderComponent } from './header/header.component';
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    AngularFireDatabaseModule,ReactiveFormsModule,HeaderComponent,IonicModule
+    AngularFireDatabaseModule, ReactiveFormsModule, HeaderComponent, IonicModule
   ],
   providers: [
+    AuthService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
