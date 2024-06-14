@@ -52,18 +52,24 @@ export class EditarPage implements OnInit {
   }
 
   loadColaboradorData() {
-    debugger
     this.firestore.doc<Colaborador>(`colaboradores/${this.colaboradorId}`).valueChanges().subscribe(data => {
       if (data) {
         const ColaboradorData = {
           ...data,
-          setor: data.setor.trim()
+          setor: data.setor.trim(),
+          dataAdmissao: this.formatDate(data.dataAdmissao)
         }
         this.phone = ColaboradorData.telefone
 
         this.colaboradorForm.patchValue(ColaboradorData);
       }
     });
+  }
+
+  formatDate(dataString: string) {
+    const partesData = dataString.split('/');
+    const dataFormatada = `${partesData[2]}-${partesData[1]}-${partesData[0]}`;
+    return dataFormatada;
   }
 
   async update() {
