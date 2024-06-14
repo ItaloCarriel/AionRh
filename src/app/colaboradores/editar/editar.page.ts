@@ -57,9 +57,9 @@ export class EditarPage implements OnInit {
       if (data) {
         const ColaboradorData = {
           ...data,
-          telefone: this.phone,
           setor: data.setor.trim()
         }
+        this.phone = ColaboradorData.telefone
 
         this.colaboradorForm.patchValue(ColaboradorData);
       }
