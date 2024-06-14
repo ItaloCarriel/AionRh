@@ -1,62 +1,60 @@
 <ion-header [translucent]="true">
   <app-header [pageTitle]="pageTitle"></app-header>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-button color="#7c107c" type="submit" (click)="onSubmit()">
-          SALVAR
-        </ion-button>
-        <ion-button fill="outline" color="#7c107c">
-          DESCARTAR
-        </ion-button>
-      </ion-col>
-
-    </ion-row>
-  </ion-grid>
-
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form [formGroup]="colaboradorForm" class="container mt-4">
-    <div class="row">
+  <form [formGroup]="colaboradorForm" class="container mt-4" (ngSubmit)="onSubmit()">
+    <div class="row my-3">
       <div class="col">
         <div class="form-group">
           <label for="matricula">Matrícula:</label>
-          <input type="text" class="form-control" name="matricula" formControlName="matricula" id="matricula" required
-            formControlName="matricula"  >
+          <input type="text" class="form-control {{matricula && 'is-invalid'}}" name="matricula"
+            formControlName="matricula" id="matricula" required formControlName="matricula" />
         </div>
       </div>
       <div class="col">
         <div class="form-group">
           <label for="nomeCompleto">Nome Completo:</label>
-          <input type="text" class="form-control" id="nomeCompleto" required formControlName="nomeCompleto" name="nomeCompleto" formControlName="nomeCompleto">
+          <input type="text" class="form-control {{nomeCompleto && 'is-invalid'}}" id="nomeCompleto" required
+            formControlName="nomeCompleto" name="nomeCompleto" formControlName="nomeCompleto" />
         </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row my-3">
       <div class="col">
         <div class="form-group">
           <label for="setor">Setor:</label>
-          <select class="form-control" id="setor" required formControlName="setor" name="setor" formControlName="setor">
+          <select class="form-control {{setor && 'is-invalid'}}" id="setor" required formControlName="setor"
+            name="setor" formControlName="setor">
             <option value="">Selecione o Setor</option>
             <option value="ASTEC">ASTEC (Assessoria Técnica)</option>
             <option value="CA">CA (Central de Apoio)</option>
-            <option value="CADASTRO E PROTOCOLO/CAF">CADASTRO E PROTOCOLO/CAF</option>
-            <option value="CAF">CAF (Coordenação de Administração Financeira)
+            <option value="CADASTRO E PROTOCOLO/CAF">
+              CADASTRO E PROTOCOLO/CAF
+            </option>
+            <option value="CAF">
+              CAF (Coordenação de Administração Financeira)
             </option>
             <option value="CAP">CAP (Coordenação de análise processual)</option>
             <option value="CEL">CEL (Comissão Especial de Licitações)</option>
             <option value="CI">CI (Controle Interno)</option>
-            <option value="CPEAP">CPEAP (Coordenação de Pesquisa de Preços)</option>
-            <option value="CPLO ">CPLO (Comissão de projetos e Licitações de
-              Obra)</option>
+            <option value="CPEAP">
+              CPEAP (Coordenação de Pesquisa de Preços)
+            </option>
+            <option value="CPLO ">
+              CPLO (Comissão de projetos e Licitações de Obra)
+            </option>
             <option value="CRP">CRP (Coordenação de Registro de Preço)</option>
-            <option value="CTI">CTI (Coordenação de Comunicação Avanços Tecnológicos)</option>
+            <option value="CTI">
+              CTI (Coordenação de Comunicação e Avanços Tecnológicos)
+            </option>
             <option value="DE">DE (Diretoria Executiva)</option>
             <option value="EP">EP (Equipe de Pregoeiros)</option>
             <option value="GAB">GAB (Gabinete)</option>
-            <option value="GAB/RECEPÇÃO">GAB/RECEPÇÃO (Recepção do Gabinete)</option>
+            <option value="GAB/RECEPÇÃO">
+              GAB/RECEPÇÃO (Recepção do Gabinete)
+            </option>
             <option value="NA">NA (Núcleo de Atendimento)</option>
             <option value="NP">NP (Núcleo de Processamento)</option>
           </select>
@@ -65,31 +63,43 @@
       <div class="col">
         <div class="form-group">
           <label for="cargo">Cargo:</label>
-          <input type="text" class="form-control" id="cargo" required formControlName="cargo" name="cargo" formControlName="cargo">
+          <input type="text" class="form-control {{cargo && 'is-invalid'}}" id="cargo" required formControlName="cargo"
+            name="cargo" formControlName="cargo" />
         </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row my-3">
       <div class="col">
         <div class="form-group">
           <label for="dataAdmissao">Data de Admissão:</label>
-          <input type="date" class="form-control" id="dataAdmissao" required formControlName="dataAdmissao" name="dataAdmissao" formControlName="dataAdmissao">
+          <input type="date" class="form-control {{dataAdmissao ? 'is-invalid':''}}" id="dataAdmissao" required
+            formControlName="dataAdmissao" name="dataAdmissao" formControlName="dataAdmissao" />
         </div>
       </div>
       <div class="col">
-        <div class="form-group">
-          <label for="email">E-mail:</label>
-          <input type="email" class="form-control" id="email" required formControlName="email" name="email" formControlName="email">
+        <label for="email">E-mail:</label>
+        <input type="email" class="form-control {{email ? 'is-invalid':''}}" id="email" required formControlName="email"
+          name="email" formControlName="email" />
+        <div *ngIf="
+            email
+            " class="text-danger mt-1">
+          E-mail inválido
         </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row my-3">
       <div class="col">
         <div class="form-group">
           <label for="telefone">Telefone:</label>
-          <input type="tel" class="form-control" id="telefone" required formControlName="telefone" name="telefone" formControlName="telefone">
+          <input type="tel" inputmode="numeric" [(ngModel)]="phone" class="form-control  {{telefone ? 'is-invalid':''}}"
+            (keypress)="onChangePhone($event)" id="telefone" required formControlName="telefone" name="telefone" />
+          <div *ngIf="
+            telefone
+            " class="text-danger mt-1">
+            Telefone inválido
+          </div>
         </div>
       </div>
     </div>
@@ -98,7 +108,8 @@
       <div class="col">
         <div class="form-group">
           <label for="situacao">Situação:</label>
-          <select class="form-control" id="situacao" formControlName="situacao" name="situacao" formControlName="situacao">
+          <select class="form-control {{situacao && 'is-invalid'}}" id="situacao" formControlName="situacao"
+            name="situacao" formControlName="situacao">
             <option value="Ativo">Ativo</option>
             <option value="Transferido">Transferido</option>
             <option value="Exonerado">Exonerado</option>
@@ -106,5 +117,13 @@
         </div>
       </div>
     </div>
+    <div class="d-flex justify-content-end mt-3">
+      <ion-button fill="clear" color="#7c107c" (click)="discardForm()">
+        DESCARTAR
+      </ion-button>
+      <ion-button type="submit" fill="outline" color="#7c107c"> SALVAR </ion-button>
+
+    </div>
+
   </form>
 </ion-content>
