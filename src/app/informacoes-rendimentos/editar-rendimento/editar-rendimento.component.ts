@@ -35,7 +35,7 @@ export class EditarRendimentoComponent implements OnInit {
     private location: Location
   ) {
     this.avaliacaoForm = this.formBuilder.group({
-      setor: [{ value: '', disabled: true }],
+      setor: ['', Validators.required],
       categoria: ['', Validators.required],
       previstoPAC: ['', Validators.required],
       cargaHoraria: ['', Validators.required],
@@ -141,9 +141,11 @@ export class EditarRendimentoComponent implements OnInit {
   }
 
   async update() {
+    await this.avaliacaoForm.markAllAsTouched();
     if (this.avaliacaoForm.valid) {
       try {
-        await this.firestore.doc(`avaliacaoAtividades/${this.avaliacaoId}`).update(this.avaliacaoForm.value);
+        /* await this.firestore.doc(`avaliacaoAtividades/${this.avaliacaoId}`).update(this.avaliacaoForm.value); */
+        console.log(this.avaliacaoForm.value)
         const alert = await this.alertController.create({
           header: 'Sucesso',
           message: 'Rendimento atualizado com sucesso!',
@@ -170,5 +172,40 @@ export class EditarRendimentoComponent implements OnInit {
 
   discardChanges() {
     this.loadAvaliacaoData(); // Recarrega os dados originais
+  }
+
+  verifyField(fieldName: string) {
+    const field = this.avaliacaoForm.get(fieldName)!;
+    return field.invalid && (field.dirty || field.touched);
+  }
+
+  get colaborador() {
+    return this.verifyField('colaborador');
+  }
+  get setor() {
+    return this.verifyField('setor');
+  }
+  get categoria() {
+    return this.verifyField('categoria');
+  }
+
+  get cargaHoraria() {
+    return this.verifyField('cargaHoraria');
+  }
+
+  get previstoPAC() {
+    return this.verifyField('previstoPAC');
+  }
+
+  get pontuacao() {
+    return this.verifyField('pontuacao');
+  }
+
+  get nota() {
+    return this.verifyField('nota');
+  }
+
+  get dataAtividade() {
+    return this.verifyField('dataAtividade');
   }
 }

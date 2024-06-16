@@ -1,9 +1,11 @@
-import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AlertController, ModalController, NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import {
+  AlertController
+} from '@ionic/angular';
 
 export interface Colaborador {
   id: string;
@@ -36,23 +38,27 @@ export class CadastroPage implements OnInit {
   ) {
     this.avaliacaoForm = this.formBuilder.group({
       colaborador: ['', Validators.required],
-      setor: [{ '': '', disabled: true }],
+      setor: ['', Validators.required],
       categoria: ['', Validators.required],
       previstoPAC: ['', Validators.required],
       cargaHoraria: ['', Validators.required],
-      pontuacao: [{ '': '', disabled: true }],
+      pontuacao: ['', Validators.required],
       nota: [''],
       dataAtividade: ['', Validators.required],
-      avaliacao: ['']
+      avaliacao: [''],
     });
   }
 
   ngOnInit() {
-    this.firestore.collection<Colaborador>('colaboradores').valueChanges().subscribe(data => {
-      this.colaboradores = data;
-      console.log('Colaboradores carregados:', this.colaboradores);
-    });
+    this.firestore
+      .collection<Colaborador>('colaboradores')
+      .valueChanges()
+      .subscribe((data) => {
+        this.colaboradores = data;
+        console.log('Colaboradores carregados:', this.colaboradores);
+      });
   }
+
   onCategoriaChange() {
     const categoria = this.avaliacaoForm.get('categoria')?.value;
     const cargaHorariaControl = this.avaliacaoForm.get('cargaHoraria');
@@ -74,31 +80,38 @@ export class CadastroPage implements OnInit {
     notaControl?.updateValueAndValidity();
   }
 
- async onSubmit() {
+  async onSubmit() {
     console.log('Tentando enviar dados do formulário...');
+    await this.avaliacaoForm.markAllAsTouched()
     if (this.avaliacaoForm.valid) {
       console.log('Formulário válido, enviando dados...');
       const formData = this.avaliacaoForm.value;
+      console.log(formData);
       try {
-        await this.firestore.collection('avaliacaoAtividades').add(formData);
+        //await this.firestore.collection('avaliacaoAtividades').add(formData);
+
         console.log('Dados salvos com sucesso!');
+
         const alert = await this.alertController.create({
           header: 'Sucesso',
           message: 'Atividade cadastrada com sucesso!',
-          buttons: [{
-            text: 'OK',
-            handler: () => {
-              this.router.navigate(['/informacoes-rendimentos']);
-            }
-          }]
+          buttons: [
+            {
+              text: 'OK',
+              handler: () => {
+                this.router.navigate(['/informacoes-rendimentos']);
+              },
+            },
+          ],
         });
         await alert.present();
       } catch (error) {
         console.error('Erro ao salvar os dados:', error);
         const alert = await this.alertController.create({
           header: 'Erro',
-          message: 'Ocorreu um erro ao salvar os dados. Por favor, tente novamente.',
-          buttons: ['OK']
+          message:
+            'Ocorreu um erro ao salvar os dados. Por favor, tente novamente.',
+          buttons: ['OK'],
         });
         await alert.present();
       }
@@ -107,7 +120,7 @@ export class CadastroPage implements OnInit {
       const alert = await this.alertController.create({
         header: 'Erro',
         message: 'Por favor, preencha todos os campos obrigatórios.',
-        buttons: ['OK']
+        buttons: ['OK'],
       });
       await alert.present();
     }
@@ -145,31 +158,38 @@ export class CadastroPage implements OnInit {
       const colaboradorNomeCompleto = colaboradorControl.value;
       console.log('Colaborador selecionado:', colaboradorNomeCompleto);
 
-      this.firestore.collection<Colaborador>('colaboradores', ref => ref.where('nomeCompleto', '==', colaboradorNomeCompleto))
+      this.firestore
+        .collection<Colaborador>('colaboradores', (ref) =>
+          ref.where('nomeCompleto', '==', colaboradorNomeCompleto)
+        )
         .valueChanges()
-        .subscribe(colaboradores => {
+        .subscribe((colaboradores) => {
           if (colaboradores.length > 0) {
             const colaboradorSelecionado = colaboradores[0];
             console.log('Colaborador encontrado:', colaboradorSelecionado);
+           
             this.avaliacaoForm.patchValue({
               setor: colaboradorSelecionado.setor
             });
           } else {
-            console.log('Nenhum colaborador encontrado com o nome:', colaboradorNomeCompleto);
+            console.log(
+              'Nenhum colaborador encontrado com o nome:',
+              colaboradorNomeCompleto
+            );
           }
         });
     }
   }
 
   async discardForm() {
-    this.location.back()
+    this.location.back();
   }
 
   async presentSuccessAlert() {
     const alert = await this.alertController.create({
       header: 'Sucesso!',
       message: 'Atividade cadastrado com sucesso.',
-      buttons: ['OK']
+      buttons: ['OK'],
     });
     await alert.present();
   }
@@ -178,9 +198,43 @@ export class CadastroPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Erro!',
       message: message,
-      buttons: ['OK']
+      buttons: ['OK'],
     });
     await alert.present();
   }
 
+  verifyField(fieldName: string) {
+    const field = this.avaliacaoForm.get(fieldName)!;
+    return field.invalid && (field.dirty || field.touched);
+  }
+
+  get colaborador() {
+    return this.verifyField('colaborador');
+  }
+  get setor() {
+    return this.verifyField('setor');
+  }
+  get categoria() {
+    return this.verifyField('categoria');
+  }
+
+  get cargaHoraria() {
+    return this.verifyField('cargaHoraria');
+  }
+
+  get previstoPAC() {
+    return this.verifyField('previstoPAC');
+  }
+
+  get pontuacao() {
+    return this.verifyField('pontuacao');
+  }
+
+  get nota() {
+    return this.verifyField('nota');
+  }
+
+  get dataAtividade() {
+    return this.verifyField('dataAtividade');
+  }
 }
