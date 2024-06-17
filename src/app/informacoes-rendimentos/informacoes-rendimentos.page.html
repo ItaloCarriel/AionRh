@@ -18,31 +18,31 @@
     </ion-row>
   </ion-grid>
 </ion-header>
-<ion-content >
+<ion-content>
 
-    <form #filtroForm="ngForm" (ngSubmit)="filtrarAvaliacoes(filtroForm.value)">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-item>
-              <ion-label>Data de Início</ion-label>
-              <input  type="date" class="calendario"  name="dataInicio" ngModel/>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <ion-label>Data de Fim</ion-label>
-              <input  type="date" class="calendario"  name="dataFinal" ngModel/>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-button type="submit" class="filtrar" fill="clear" size="small">
-              Filtrar
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </form>
+  <form #filtroForm="ngForm" (ngSubmit)="filtrarAvaliacoes(filtroForm.value)">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>Data de Início</ion-label>
+            <input type="date" class="calendario" name="dataInicio" ngModel />
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>Data de Fim</ion-label>
+            <input type="date" class="calendario" name="dataFinal" ngModel />
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-button type="submit" class="filtrar" fill="clear" size="small">
+            Filtrar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 
   <ion-content [fullscreen]="true">
     <ion-grid style="font-size: 12px">
@@ -78,18 +78,17 @@
                   </td>
                   <td>{{ avaliacao.colaborador }}</td>
                   <td>
-                    <p [ngClass]="getCategoriaClass(avaliacao.categoria)">
+                    <span class="badge w-50 p-2 " [ngClass]="getCategoriaClass(avaliacao.categoria)">
+
                       {{ avaliacao.categoria }}
-                    </p>
+                    </span>
                   </td>
                   <td>{{ avaliacao.previstoPAC }}</td>
                   <td>{{ avaliacao.cargaHoraria }}{{ avaliacao.nota }}</td>
                   <td>{{ avaliacao.pontuacao }}</td>
                   <td>{{ avaliacao.dataAtividade }}</td>
-                  <td>
-                    <ion-button fill="clear" color="danger" (click)="excluirAvaliacao(avaliacao.id, $event)">
-                      <ion-icon name="trash"></ion-icon>
-                    </ion-button>
+                  <td> <span (click)="excluirAvaliacao(avaliacao.id, $event)">
+                      <ion-icon name="trash"></ion-icon> </span>
                   </td>
                 </tr>
               </ng-container>

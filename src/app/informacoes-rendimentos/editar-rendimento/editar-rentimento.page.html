@@ -1,17 +1,6 @@
 <ion-header [translucent]="true">
   <app-header [pageTitle]="pageTitle"></app-header>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-button color="#7c107c" type="submit" (click)="update()">
-          SALVAR
-        </ion-button>
-        <ion-button fill="outline" color="#7c107c"  (click)="discardForm()">
-          DESCARTAR
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -22,19 +11,16 @@
           <div class="col">
             <div class="form-group">
               <label for="colaborador">Colaborador:</label>
-              <select class="form-control" name="colaborador" id="colaborador" formControlName="colaborador" (change)="buscarNomeCompleto()">
-                <option value="">Selecione o Colaborador</option>
-                <option *ngFor="let colaborador of colaboradores" [value]="colaborador.nomeCompleto">
-                  {{ colaborador.nomeCompleto }}
-                </option>
-              </select>
+              <input type="text" class="form-control {{colaborador && 'is-invalid'}}" id="colaborador"
+                formControlName="colaborador" name="colaborador" readonly>
             </div>
           </div>
 
           <div class="col">
             <div class="form-group">
               <label for="setor">Setor:</label>
-              <input type="text" class="form-control" id="setor" formControlName="setor" name="setor" readonly>
+              <input type="text" class="form-control {{setor && 'is-invalid'}}" id="setor" formControlName="setor"
+                name="setor" readonly>
             </div>
           </div>
         </div>
@@ -43,7 +29,8 @@
           <div class="col">
             <div class="form-group">
               <label for="categoria">Categoria:</label>
-              <select name="categoria" id="categoria" class="form-control" formControlName="categoria" (change)="onCategoriaChange()">
+              <select name="categoria" id="categoria" class="form-control {{categoria && 'is-invalid'}}"
+                formControlName="categoria" (change)="onCategoriaChange()">
                 <option value="">Selecione uma Categoria</option>
                 <option value="Inovação">Inovação</option>
                 <option value="Colaboração">Colaboração</option>
@@ -55,10 +42,12 @@
 
           <div class="col">
             <div class="form-group">
-              <label for="previstoPAC" title="Se a capacitação estiver prevista no Plano Anual de Capacitação do exercício">
+              <label for="previstoPAC"
+                title="Se a capacitação estiver prevista no Plano Anual de Capacitação do exercício">
                 Capacitação Prevista no PAC:
               </label>
-              <select name="previstoPAC" id="previstoPAC" class="form-control" formControlName="previstoPAC" (change)="calcularPontuacao()">
+              <select name="previstoPAC" id="previstoPAC" class="form-control {{previstoPAC && 'is-invalid'}}"
+                formControlName="previstoPAC" (change)="calcularPontuacao()">
                 <option value="">Selecione um Status</option>
                 <option value="Sim">Sim</option>
                 <option value="Não">Não</option>
@@ -69,16 +58,19 @@
           <div class="col" *ngIf="avaliacaoForm.get('categoria')?.value !== 'Inovação'">
             <div class="form-group">
               <label for="cargaHoraria">Carga Horária:</label>
-              <input class="form-control" type="text" id="cargaHoraria" formControlName="cargaHoraria" (input)="calcularPontuacao()">
+              <input class="form-control {{cargaHoraria && 'is-invalid'}}" type="text" id="cargaHoraria"
+                formControlName="cargaHoraria" (input)="calcularPontuacao()">
             </div>
           </div>
 
           <div class="col" *ngIf="avaliacaoForm.get('categoria')?.value !== 'Inovação'">
             <div class="form-group">
-              <label for="pontuacao" title="Cada 10 horas de capacitação realizadas pelos servidores contarão como 1 ponto. Se a capacitação estiver prevista no Plano Anual de Capacitação do exercício, o servidor receberá 2 pontos por cada 10 horas de certificação.">
+              <label for="pontuacao"
+                title="Cada 10 horas de capacitação realizadas pelos servidores contarão como 1 ponto. Se a capacitação estiver prevista no Plano Anual de Capacitação do exercício, o servidor receberá 2 pontos por cada 10 horas de certificação.">
                 Pontuação:
               </label>
-              <input type="text" class="form-control" id="pontuacao" required formControlName="pontuacao" name="pontuacao">
+              <input type="text" class="form-control {}" id="pontuacao" required formControlName="pontuacao"
+                name="pontuacao">
             </div>
           </div>
 
@@ -86,7 +78,8 @@
             <div class="col">
               <div class="form-group">
                 <label for="nota">Nota:</label>
-                <input type="text" class="form-control" id="nota" formControlName="nota" required>
+                <input type="text" class="form-control {{nota && 'is-invalid'}}" id="nota" formControlName="nota"
+                  required>
               </div>
             </div>
           </div>
@@ -96,7 +89,8 @@
           <div class="col">
             <div class="form-group">
               <label for="dataAtividade">Data Atividade:</label>
-              <input type="date" class="form-control" id="dataAtividade" required formControlName="dataAtividade" name="dataAtividade">
+              <input type="date" class="form-control {{dataAtividade && 'is-invalid'}}" id="dataAtividade" required
+                formControlName="dataAtividade" name="dataAtividade">
             </div>
           </div>
         </div>
@@ -105,10 +99,19 @@
           <div class="col">
             <div class="form-group">
               <label for="avaliacao">Avaliação:</label>
-              <textarea name="avaliacao" id="avaliacao" cols="30" rows="10" class="form-control" formControlName="avaliacao"></textarea>
+              <textarea name="avaliacao" id="avaliacao" cols="30" rows="10" class="form-control"
+                formControlName="avaliacao"></textarea>
             </div>
           </div>
         </div>
+
       </ion-grid>
+      <div class="d-flex justify-content-end mt-3">
+        <ion-button fill="clear" color="#7c107c" (click)="discardForm()">
+          DESCARTAR
+        </ion-button>
+        <ion-button type="submit" fill="outline" color="#7c107c"> SALVAR </ion-button>
+
+      </div>
     </form>
-</ion-content>
+  </ion-content>
