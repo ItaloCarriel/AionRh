@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthService } from '../servicos/auth-service.service';
+import { AuthService } from '../shared/services/auth-service.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
   loginForm: FormGroup;
 
   constructor(
@@ -26,7 +26,6 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
 
   async login() {
     if (this.loginForm.valid) {
@@ -44,6 +43,7 @@ export class LoginPage implements OnInit {
 
         if (success) {
           // Navegar para a página inicial após o login bem-sucedido
+          this.loginForm.reset();
           this.router.navigate(['/home']);
         } else {
           // Exibir mensagem de erro se a autenticação falhar

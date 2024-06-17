@@ -1,49 +1,52 @@
 <ion-app>
-
-    <ion-menu contentId="main-content" side="start" menuId="menu">
-      <ion-header>
-        <ion-toolbar>
-          <ion-col size="10">
-            <ion-buttons slot="start">
-              <ion-back-button></ion-back-button>
-            </ion-buttons>
-            <div class="logo" style="text-align: center; font-size: 40px; color: #7c107c;">
-              <strong>Aión</strong>Rh
-            </div>
-          </ion-col>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content class="menu-lateral">
-        <ion-list>
-          <ion-menu-toggle auto-hide="false">
-            <ion-item-group>
-              <ion-item routerLink="/colaboradores" routerDirection="forward">
-                <ion-label>Colaboradores</ion-label>
-              </ion-item>
-        
-              <ion-item routerLink="/departamentos" routerDirection="forward">        
-                <ion-label>Departamentos</ion-label>
-              </ion-item>      
-        
-              <ion-item routerLink="/informacoes-rendimentos" routerDirection="forward">
-                <ion-label>Informações de Rendimentos</ion-label>
-              </ion-item>
-            </ion-item-group>
-          </ion-menu-toggle>
-        </ion-list>
-      </ion-content>
-    </ion-menu>
-
-    <ion-router-outlet id="main-content">
-      <ion-header>
-        <ion-toolbar>
+  <ion-menu contentId="main-content" side="start" menuId="menu">
+    <ion-header>
+      <ion-toolbar>
+        <ion-col size="10">
           <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
+            <ion-back-button></ion-back-button>
           </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <app-dashboards></app-dashboards>
-    </ion-router-outlet>
+          <div class="logo" style="text-align: center; font-size: 40px; color: #7c107c">
+            <strong>Aión</strong>Rh
+          </div>
+        </ion-col>
+      </ion-toolbar>
+    </ion-header>
 
+    <ion-content class="menu-lateral">
+      <ion-list>
+        <ion-menu-toggle auto-hide="false">
+          <ion-item-group>
+            <ion-item routerLink="/colaboradores" routerDirection="forward">
+              <ion-label>Colaboradores</ion-label>
+            </ion-item>
+
+            <ion-item routerLink="/departamentos" routerDirection="forward">
+              <ion-label>Departamentos</ion-label>
+            </ion-item>
+
+            <ion-item routerLink="/informacoes-rendimentos" routerDirection="forward">
+              <ion-label>Informações de Rendimentos</ion-label>
+            </ion-item>
+          </ion-item-group>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <ion-router-outlet id="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+          <ion-button shape="round" fill="clear" class="logout" (click)="logout()">
+            <ion-icon slot="icon-only" color="#fff" name="log-in-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <app-dashboards></app-dashboards>
+  </ion-router-outlet>
 </ion-app>

@@ -1,63 +1,62 @@
 import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuardService } from './servicos/auth-guard.service';
 import { EditarRendimentoComponent } from './informacoes-rendimentos/editar-rendimento/editar-rendimento.component';
+import { authGuard } from './shared/guard/auth.guard';
 
 
 const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(m => m.HomePageModule),
-    canActivate: [AuthGuardService]
+    canActivate: [authGuard]
   },
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',
-    canActivate: [AuthGuardService]
+    canActivate: [authGuard]
   },
   {
     path: 'colaboradores',
     loadChildren: () => import('./colaboradores/colaboradores.module').then(m => m.ColaboradoresPageModule),
-    canActivate: [AuthGuardService]
+    canActivate: [authGuard]
   },
   {
     path: 'departamentos',
     loadChildren: () => import('./departamentos/departamentos.module').then(m => m.DepartamentosPageModule),
-    canActivate: [AuthGuardService]
+    canActivate: [authGuard]
   },
   {
     path: 'informacoes-rendimentos',
     loadChildren: () => import('./informacoes-rendimentos/informacoes-rendimentos.module').then(m => m.InformacoesRendimentosPageModule),
-    canActivate: [AuthGuardService]
+    canActivate: [authGuard]
   },
   {
     path: 'cadastrar-colaborador',
     loadChildren: () => import('./colaboradores/cadastrar/cadastrar.module').then(m => m.CadastrarPageModule),
-    canActivate: [AuthGuardService]
+    canActivate: [authGuard]
   },
   {
     path: 'editar-colaborador/:id',
     loadChildren: () => import('./colaboradores/editar/editar.module').then(m => m.EditarPageModule),
-    canActivate: [AuthGuardService]
-    },
+    canActivate: [authGuard]
+  },
   {
     path: 'criar-avaliacao',
     loadChildren: () => import('./informacoes-rendimentos/cadastro/cadastro.module').then(m => m.CadastroPageModule),
-    canActivate: [AuthGuardService]
-   },
+    canActivate: [authGuard]
+  },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule),
-    canActivate: [AuthGuardService]
   },
   {
     path: 'editar-rendimento',
     component: EditarRendimentoComponent,
+    canActivate: [authGuard]
     // loadChildren: () => import('./informacoes-rendimentos/editar-rendimento/editar-rendimento.component').then(m => m.EditarRendimentoComponent),
     // canActivate: [AuthGuardService]
-    }
+  }
 ];
 
 @NgModule({

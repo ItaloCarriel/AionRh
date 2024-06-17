@@ -1,12 +1,26 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private afAuth: AngularFireAuth) { }
+  userData: any;
+  constructor(private afAuth: AngularFireAuth, public router: Router,
+  ) {
+    this.afAuth.authState.subscribe((user) => {
+
+      if (user) {
+        this.userData = user;
+        localStorage.setItem('user', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('user')!);
+      } else {
+        localStorage.setItem('user', 'null');
+        JSON.parse(localStorage.getItem('user')!);
+      }
+    });
+  }
 
 
 
@@ -26,9 +40,10 @@ export class AuthService {
       return false;
     }
   }
-  
-  
+
+
   async logout(): Promise<void> {
+    this.router.navigate(['/login']);
     await this.afAuth.signOut();
   }
 
@@ -45,7 +60,9 @@ export class AuthService {
   }
 
   async isAuthenticated(): Promise<boolean> {
-    return this.afAuth.currentUser !== null;
+    const user = JSON.parse(localStorage.getItem('user')!);
+    console.log(user)
+    return user !== null && !!user.email
   }
 
   async getProfile(): Promise<firebase.default.User | null> {

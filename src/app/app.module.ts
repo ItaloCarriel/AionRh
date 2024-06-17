@@ -12,7 +12,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { AuthService } from './servicos/auth-service.service';
+import { AuthService } from './shared/services/auth-service.service';
 
 
 @NgModule({
