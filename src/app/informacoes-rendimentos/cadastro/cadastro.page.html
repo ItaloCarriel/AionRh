@@ -10,7 +10,7 @@
           <div class="form-group">
             <label for="colaborador">Colaborador:</label>
             <select class="form-control {{colaborador && 'is-invalid'}}" name="colaborador" id="colaborador"
-              formControlName="colaborador" (change)="buscarNomeCompleto()">
+              formControlName="colaborador" (click)="buscarNomeCompleto()">
               <option value="">Selecione o Colaborador</option>
               <option *ngFor="let colaborador of colaboradores" [value]="colaborador.nomeCompleto">
                 {{ colaborador.nomeCompleto }}
@@ -37,7 +37,6 @@
               <option value="">Selecione uma Categoria</option>
               <option value="Inovação">Inovação</option>
               <option value="Colaboração">Colaboração</option>
-              <option value="Desenvolvimento Pessoal">Desenvolvimento Pessoal</option>
               <option value="Desenvolvimento Pessoal">
                 Desenvolvimento Pessoal
               </option>

@@ -48,16 +48,29 @@ export class CadastroPage implements OnInit {
       avaliacao: [''],
     });
   }
-
   ngOnInit() {
     this.firestore
       .collection<Colaborador>('colaboradores')
       .valueChanges()
       .subscribe((data) => {
-        this.colaboradores = data;
+        this.colaboradores = data.sort((a, b) => {
+          // Ordenando por nomeCompleto em ordem alfabética
+          if (a.nomeCompleto < b.nomeCompleto) return -1;
+          if (a.nomeCompleto > b.nomeCompleto) return 1;
+          return 0;
+        });
         console.log('Colaboradores carregados:', this.colaboradores);
       });
   }
+  // ngOnInit() {
+  //   this.firestore
+  //     .collection<Colaborador>('colaboradores')
+  //     .valueChanges()
+  //     .subscribe((data) => {
+  //       this.colaboradores = data;
+  //       console.log('Colaboradores carregados:', this.colaboradores);
+  //     });
+  // }
 
   onCategoriaChange() {
     const categoria = this.avaliacaoForm.get('categoria')?.value;
@@ -160,14 +173,14 @@ export class CadastroPage implements OnInit {
 
       this.firestore
         .collection<Colaborador>('colaboradores', (ref) =>
-          ref.where('nomeCompleto', '==', colaboradorNomeCompleto)
+          ref.where('nomeCompleto', '==', colaboradorNomeCompleto).orderBy('nomeCompleto')
         )
         .valueChanges()
         .subscribe((colaboradores) => {
           if (colaboradores.length > 0) {
             const colaboradorSelecionado = colaboradores[0];
             console.log('Colaborador encontrado:', colaboradorSelecionado);
-           
+
             this.avaliacaoForm.patchValue({
               setor: colaboradorSelecionado.setor
             });
@@ -179,7 +192,7 @@ export class CadastroPage implements OnInit {
           }
         });
     }
-  }
+}
 
   async discardForm() {
     this.location.back();
