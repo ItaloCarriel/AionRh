@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <form class="form" [formGroup]="loginForm">
+  <form class="form" [formGroup]="resetPasswordForm" >
     <ion-list>
       <div class="logo" style="text-align: center;">
         <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -8,19 +8,11 @@
             font-weight="bold" fill="white">AiónRH</text>
         </svg>
       </div>
-
-      <ion-input label="E-mail" formControlName="email" type="email" label-placement="floating" fill="outline"
+      <span class="d-flex justify-content-center text-bold">Insira um email válido para a recuperação.</span>
+     
+      <ion-input formControlName="email" label="E-mail" type="email" label-placement="floating" fill="outline"
         placeholder="E-mail"></ion-input>
-
-      <ion-input label="Senha" formControlName="password" type="password" label-placement="floating" fill="outline"
-        placeholder="Senha"></ion-input>
-
-      <ion-button fill="outline" color="#9d3a9d" expand="block" (click)="login()">Acessar</ion-button>
-
-      <a href="recuperasenha">Esqueceu sua senha?</a>
-
-
-
+      <ion-button fill="outline" expand="block" color="#9d3a9d" (click)="resetPassword()">Recuperar Senha</ion-button>
     </ion-list>
   </form>
 </ion-content>

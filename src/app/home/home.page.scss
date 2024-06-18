@@ -26,16 +26,19 @@
   text-decoration: none;
 }
 
-ion-router-outlet{
+ion-router-outlet {
   background-color: #8f548f3d;
 }
 
-
-ion-menu.ios{
+ion-menu.ios {
   width: auto;
 }
 
-ion-toolbar{
+ion-toolbar {
   --background: #8f548f00;
   border-bottom: none;
+}
+
+.logout {
+  color: #fff;
 }
