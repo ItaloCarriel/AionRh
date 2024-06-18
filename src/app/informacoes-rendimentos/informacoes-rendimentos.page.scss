@@ -1,77 +1,48 @@
 .grid {
-    background-color: white;
-  }
-
-  .categoria-inovacao {
-    background-color: #30C381;
-    color: #091124;
-    border: 1px solid #9d3a9d;
-    padding-right: 0.6em;
-    padding-left: 0.6em;
-    border-radius: 10rem;
-    margin: 1px 2px 1px 0;
-    text-align: center;
-
-  }
-
-  .categoria-colaboracao {
-    background-color: #4caf50;
-    color: #091124;
-    border: 1px solid #9d3a9d;
-    padding-right: 0.6em;
-    padding-left: 0.6em;
-    border-radius: 10rem;
-    margin: 1px 2px 1px 0;
-    text-align: center;
-
-  }
-
-  .categoria-lideranca {
-    background-color: #f44336;
-    color: #091124;
-    border: 1px solid #9d3a9d;
-    padding-right: 0.6em;
-    padding-left: 0.6em;
-    border-radius: 10rem;
-    margin: 1px 2px 1px 0;
-    text-align: center;
-
-  }
-
-  .categoria-desenvolvimento {
-    background-color: #2196f3;
-    color: #091124;
-    border: 1px solid #9d3a9d;
-    padding-right: 0.6em;
-    padding-left: 0.6em;
-    border-radius: 10rem;
-    margin: 1px 2px 1px 0;
-    text-align: center;
-
-  }
-
-  .categoria-desenvolvimento-pessoal {
-    background-color: #9c27b0;
-    color: #091124;
-    border: 1px solid #9d3a9d;
-    padding-right: 0.6em;
-    padding-left: 0.6em;
-    border-radius: 10rem;
-    margin: 1px 2px 1px 0;
-    text-align: center;
-
-  }
-.calendario{
-  background-color: #9d3a9d;
-  color: white;
-  border-radius: 4px;
-  border: 1px solid #9d3a9d;
+  background-color: white;
 }
-.filtrar{
+
+ion-icon[name="trash"] {
+  font-size: 18px;
+  color: red;
+}
+
+.categoria-inovacao {
+  background-color: #30c381;
+
+  text-align: center;
+}
+
+.categoria-colaboracao {
+  background-color: #4caf50;
+
+  text-align: center;
+}
+
+.categoria-lideranca {
+  background-color: #f44336;
+
+  text-align: center;
+}
+
+.categoria-desenvolvimento-pessoal {
+  background-color: #2196f3;
+  text-align: center;
+}
+
+
+
+.calendario {
   background-color: #9d3a9d;
   color: white;
   border-radius: 4px;
-  border: 1px solid #9d3a9d;
+}
+
+.filtrar {
+  background-color: #9d3a9d;
+  color: white;
+  border-radius: 4px;
+
   margin-top: 10px;
   height: 10px;
 }
