@@ -22,7 +22,7 @@ export interface Avaliacao {
 }
 @Component({
   selector: 'app-dashboards',
-  standalone:true,
+  standalone: true,
   imports: [
     CommonModule, RouterModule, IonicModule
   ],
@@ -31,32 +31,35 @@ export interface Avaliacao {
   templateUrl: './dashboards.component.html',
   styleUrls: ['./dashboards.component.scss'],
 })
-export class DashboardsComponent  implements OnInit {
+export class DashboardsComponent implements OnInit {
   avaliacao: Avaliacao[] = [];
   @ViewChild('barChartMaiorPontuacao') barChartMaiorPontuacao: any;
   @ViewChild('barChartColaboradoresPontuacao') barChartColaboradoresPontuacao: any;
   @ViewChild('pieChartSetorMediaPontuacao') pieChartSetorMediaPontuacao: any;
   @ViewChild('pieCharColaboradorCategoria') pieCharColaboradorCategoria: any;
 
-  constructor(private firestore: AngularFirestore) {}
+  constructor(private firestore: AngularFirestore) { }
 
   ngOnInit() {
     this.loadChartData();
   }
   loadChartData() {
     this.firestore.collection<Avaliacao>('avaliacaoAtividades').valueChanges().subscribe((data: Avaliacao[]) => {
-      const setores = data.map(avaliacao => avaliacao.setor);
-      const pontuacoes = data.map(avaliacao => parseFloat(avaliacao.pontuacao)); 
-      const colaboradores = data.map(avaliacao => avaliacao.colaborador);
-      const categorias = data.map(avaliacao => avaliacao.categoria);
-  
+      const orderData = data.sort((a, b) => {
+        return Number(b.pontuacao) - Number(a.pontuacao);
+      })
+      const setores = orderData.map(avaliacao => avaliacao.setor);
+      const pontuacoes = orderData.map(avaliacao => parseFloat(avaliacao.pontuacao));
+      const colaboradores = orderData.map(avaliacao => avaliacao.colaborador);
+      const categorias = orderData.map(avaliacao => avaliacao.categoria);
+
       this.drawBarChart(this.barChartMaiorPontuacao.nativeElement, setores, pontuacoes, 'Setor com maior pontuação');
       this.drawBarChart(this.barChartColaboradoresPontuacao.nativeElement, colaboradores, pontuacoes, 'Colaboradores X Quantidade de Pontos');
       this.drawBarChart(this.pieChartSetorMediaPontuacao.nativeElement, setores, pontuacoes, 'Setor X Média de Pontuação');
       this.drawPieChart(this.pieCharColaboradorCategoria.nativeElement, colaboradores, categorias, 'Colaborador x Categoria');
     });
   }
-  
+
   drawBarChart(canvas: HTMLCanvasElement, labels: string[], data: number[], title: string) {
     new Chart(canvas, {
       type: 'bar',
@@ -65,8 +68,24 @@ export class DashboardsComponent  implements OnInit {
         datasets: [{
           label: title,
           data: data,
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(201, 203, 207, 0.2)'
+          ],
+          borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)'
+          ],
           borderWidth: 1
         }]
       },
@@ -79,7 +98,7 @@ export class DashboardsComponent  implements OnInit {
       }
     });
   }
-  
+
   drawPieChart(canvas: HTMLCanvasElement, labels: string[], data: any[], title: string) {
     new Chart(canvas, {
       type: 'pie',
@@ -109,6 +128,6 @@ export class DashboardsComponent  implements OnInit {
       },
     });
   }
-  
+
 
 }

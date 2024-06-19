@@ -27,7 +27,7 @@
 }
 
 ion-router-outlet {
-  background-color: #8f548f3d;
+  background: #f2f5f7
 }
 
 ion-menu.ios {
@@ -35,7 +35,8 @@ ion-menu.ios {
 }
 
 ion-toolbar {
-  --background: #8f548f00;
+  --background: #6d197b;
+  --color: #fff;
   border-bottom: none;
 }
 
