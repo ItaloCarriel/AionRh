@@ -101,9 +101,7 @@ export class CadastroPage implements OnInit {
       const formData = this.avaliacaoForm.value;
       console.log(formData);
       try {
-        //await this.firestore.collection('avaliacaoAtividades').add(formData);
-
-        console.log('Dados salvos com sucesso!');
+        await this.firestore.collection('avaliacaoAtividades').add(formData);
 
         const alert = await this.alertController.create({
           header: 'Sucesso',

@@ -42,7 +42,7 @@
               <th scope="col" title="E-mail">E-mail</th>
               <th scope="col" title="Telefone">Telefone</th>
               <th scope="col" title="Situação">Situação</th>
-              <th scope="col" title="Situação"></th>
+              <th scope="col" title="Action"></th>
             </tr>
           </thead>
           <tbody class="p-2">
@@ -58,7 +58,7 @@
                 <td>{{ colaborador.nomeCompleto }}</td>
                 <td>{{ colaborador.setor }}</td>
                 <td>{{ colaborador.cargo }}</td>
-                <td>{{ colaborador.dataAdmissao }}</td>
+                <td>{{ colaborador.dataAdmissao | date: 'dd/MM/yyyy'}}</td>
                 <td>{{ colaborador.email }}</td>
                 <td>{{ colaborador.telefone }}</td>
                 <td>
