@@ -19,7 +19,6 @@
   </ion-grid>
 </ion-header>
 <ion-content>
-
   <form #filtroForm="ngForm" (ngSubmit)="filtrarAvaliacoes(filtroForm.value)">
     <ion-grid>
       <ion-row>
@@ -36,9 +35,7 @@
           </ion-item>
         </ion-col>
         <ion-col>
-          <button type="submit" size="small">
-            Filtrar
-          </button>
+          <button type="submit" size="small">Filtrar</button>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -46,12 +43,12 @@
 
   <ion-content [fullscreen]="true">
     <ion-grid style="font-size: 12px">
-      <div class="o_list_view o_list_optional_columns table-responsive-lg">
+      <div class="card m-3 border-0 flex-fill wm-100">
         <div class="table-responsive">
-          <table class="o_list_table table-sm table-striped o_list_table_ungrouped table">
-            <thead class="o_list_header">
+          <table class="table align-middle table-edge table-nowrap mb-0 table-hover table-borderless">
+            <thead class="table-light">
               <tr>
-                <th class="o_list_record_selector">
+                <th>
                   <div class="custom-control custom-checkbox">
                     <input type="checkbox" id="checkbox-597" class="custom-control-input" />
                     <label for="checkbox-597" class="custom-control-label">​</label>
@@ -65,9 +62,10 @@
                 <th scope="col" title="Carga Horária">Carga Horária</th>
                 <th scope="col" title="Pontuação">Pontuação</th>
                 <th scope="col" title="Data Atividade">Data Atividade</th>
+                <th scope="col" title="Action"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="p-2">
               <ng-container *ngFor="let avaliacao of avaliacoes">
                 <tr class="o_data_row" (click)="editarAvaliacao(avaliacao)">
                   <td class="o_list_record_selector">
@@ -78,8 +76,7 @@
                   </td>
                   <td>{{ avaliacao.colaborador }}</td>
                   <td>
-                    <span class="badge w-50 p-2 " [ngClass]="getCategoriaClass(avaliacao.categoria)">
-
+                    <span class="badge w-50 p-2 tw-bold" [ngClass]="getCategoriaClass(avaliacao.categoria)">
                       {{ avaliacao.categoria }}
                     </span>
                   </td>
@@ -87,8 +84,10 @@
                   <td>{{ avaliacao.cargaHoraria }}{{ avaliacao.nota }}</td>
                   <td>{{ avaliacao.pontuacao }}</td>
                   <td>{{ avaliacao.dataAtividade }}</td>
-                  <td> <span (click)="excluirAvaliacao(avaliacao.id, $event)">
-                      <ion-icon name="trash"></ion-icon> </span>
+                  <td>
+                    <span (click)="excluirAvaliacao(avaliacao.id, $event)">
+                      <ion-icon name="trash"></ion-icon>
+                    </span>
                   </td>
                 </tr>
               </ng-container>
