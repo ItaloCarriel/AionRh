@@ -83,7 +83,7 @@
                   <td>{{ avaliacao.previstoPAC }}</td>
                   <td>{{ avaliacao.cargaHoraria }}{{ avaliacao.nota }}</td>
                   <td>{{ avaliacao.pontuacao }}</td>
-                  <td>{{ avaliacao.dataAtividade }}</td>
+                  <td>{{ avaliacao.dataAtividade | date: 'dd/MM/yyyy' }}</td>
                   <td>
                     <span (click)="excluirAvaliacao(avaliacao.id, $event)">
                       <ion-icon name="trash"></ion-icon>
