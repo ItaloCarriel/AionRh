@@ -4,5 +4,15 @@
 
 ion-icon[name="trash"] {
   font-size: 18px;
-  color: red;
+  color: rgba(253, 0, 0, 0.5);
+
+  &:hover {
+    color: rgba(253, 0, 0, 0.8);
+  }
+}
+
+.text-bg-purple {
+  background-color: #e0d9f2 !important;
+  color: #6d197b !important;
+  font-size: 12px !important;
 }

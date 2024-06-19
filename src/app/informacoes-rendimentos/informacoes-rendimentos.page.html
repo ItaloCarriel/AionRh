@@ -67,14 +67,9 @@
       </form>
     </ion-content>
   </ion-menu>
-
-<ion-content [fullscreen]="true">
-  <div class="card-container">
-    <ion-grid style="font-size: 12px" class="container-conteudo">
-      <div class="o_list_view o_list_optional_columns table-responsive-lg">
         <div class="table-responsive">
-          <table class="o_list_table table-sm table-striped o_list_table_ungrouped table">
-            <thead class="o_list_header">
+          <table class="table align-middle table-edge table-nowrap mb-0 table-hover table-borderless">
+            <thead class="table-light">
               <tr>
                 <th scope="col" title="Nome Completo">Colaborador</th>
                 <th scope="col" title="Categoria">Categoria</th>
@@ -84,29 +79,25 @@
                 <th scope="col" title="Carga Horária">Carga Horária</th>
                 <th scope="col" title="Pontuação">Pontuação</th>
                 <th scope="col" title="Data Atividade">Data Atividade</th>
-                <th class="o_list_record_selector">
-                  <div class="custom-control custom-checkbox">
-                    <label class="custom-control-label">Açôes​</label>
-                  </div>
-                </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="p-2">
               <ng-container *ngFor="let avaliacao of avaliacoes">
                 <tr class="o_data_row" (click)="editarAvaliacao(avaliacao)">
                   <td>{{ avaliacao.colaborador }}</td>
                   <td>
-                    <span class="badge w-50 p-2 " [ngClass]="getCategoriaClass(avaliacao.categoria)">
-
+                    <span class="badge w-50 p-2 tw-bold" [ngClass]="getCategoriaClass(avaliacao.categoria)">
                       {{ avaliacao.categoria }}
                     </span>
                   </td>
                   <td>{{ avaliacao.previstoPAC }}</td>
                   <td>{{ avaliacao.cargaHoraria }}{{ avaliacao.nota }}</td>
                   <td>{{ avaliacao.pontuacao }}</td>
-                  <td>{{ avaliacao.dataAtividade }}</td>
-                  <td> <span (click)="excluirAvaliacao(avaliacao.id, $event)">
-                      <ion-icon name="trash"></ion-icon> </span>
+                  <td>{{ avaliacao.dataAtividade | date: 'dd/MM/yyyy' }}</td>
+                  <td>
+                    <span (click)="excluirAvaliacao(avaliacao.id, $event)">
+                      <ion-icon name="trash"></ion-icon>
+                    </span>
                   </td>
                 </tr>
               </ng-container>

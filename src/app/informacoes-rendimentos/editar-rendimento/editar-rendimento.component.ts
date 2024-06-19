@@ -142,10 +142,10 @@ export class EditarRendimentoComponent implements OnInit {
 
   async update() {
     await this.avaliacaoForm.markAllAsTouched();
+
     if (this.avaliacaoForm.valid) {
       try {
-        /* await this.firestore.doc(`avaliacaoAtividades/${this.avaliacaoId}`).update(this.avaliacaoForm.value); */
-        console.log(this.avaliacaoForm.value)
+        await this.firestore.doc(`avaliacaoAtividades/${this.avaliacaoId}`).update(this.avaliacaoForm.value);
         const alert = await this.alertController.create({
           header: 'Sucesso',
           message: 'Rendimento atualizado com sucesso!',

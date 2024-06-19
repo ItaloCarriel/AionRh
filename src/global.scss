@@ -1,5 +1,4 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
-
+@import "~bootstrap/dist/css/bootstrap.min.css";
 
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
@@ -17,19 +16,20 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-ion-app{
-    font-family: 'Lexend', "open sans", "Helvetica Neue", Helvetica, Arialn, sans-serif;
+ion-app {
+  font-family: "Lexend", "open sans", "Helvetica Neue", Helvetica, Arialn,
+    sans-serif;
 }
 
 ion-button {
-    color: #7c107c;
+  color: #7c107c;
 }
 
-ion-content{
-    background-color: #8f548f3d;
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+ion-content {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
+
