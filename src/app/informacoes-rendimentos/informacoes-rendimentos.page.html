@@ -25,7 +25,7 @@
   </ion-grid>
 </ion-header>
 
-
+<ion-content [fullscreen]="true">
   <ion-menu side="end" menuId="filterMenu" contentId="main-content">
     <ion-header>
       <ion-toolbar>
@@ -60,22 +60,24 @@
               </ion-item>
             </ion-col>
             <ion-col>
-              <ion-button type="submit" size="" fill="outline" color="#7c107c" >Filtrar</ion-button>
+              <ion-button type="submit" size="" fill="outline" color="#7c107c">Filtrar</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
       </form>
     </ion-content>
   </ion-menu>
+
+  <div class="card-container">
+    <ion-grid style="font-size: 12px" class="container-conteudo">
+      <div class="o_list_view o_list_optional_columns table-responsive-lg">
         <div class="table-responsive">
           <table class="table align-middle table-edge table-nowrap mb-0 table-hover table-borderless">
             <thead class="table-light">
               <tr>
                 <th scope="col" title="Nome Completo">Colaborador</th>
                 <th scope="col" title="Categoria">Categoria</th>
-                <th scope="col" title="Capacitação Prevista no PAC">
-                  Capacitação Prevista no PAC
-                </th>
+                <th scope="col" title="Capacitação Prevista no PAC">Capacitação Prevista no PAC</th>
                 <th scope="col" title="Carga Horária">Carga Horária</th>
                 <th scope="col" title="Pontuação">Pontuação</th>
                 <th scope="col" title="Data Atividade">Data Atividade</th>
