@@ -36,13 +36,48 @@
           </ion-item>
         </ion-col>
         <ion-col>
+          <ion-item>
+            <ion-label>Categoria</ion-label>
+            <ion-select name="categoria" ngModel>
+              <ion-select-option value="">Nenhum</ion-select-option>
+              <ion-select-option value="Inovação">Inovação</ion-select-option>
+              <ion-select-option value="Colaboração">Colaboração</ion-select-option>
+              <ion-select-option value="Liderança">Liderança</ion-select-option>
+              <ion-select-option value="Desenvolvimento">Desenvolvimento</ion-select-option>
+              <ion-select-option value="Desenvolvimento Pessoal">Desenvolvimento Pessoal</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <button type="submit" size="small">Filtrar</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+  <!-- <form #filtroForm="ngForm" (ngSubmit)="filtrarAvaliacoes(filtroForm.value)">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>Data de Início</ion-label>
+            <input type="date" class="calendario" name="dataInicio" ngModel />
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>Data de Fim</ion-label>
+            <input type="date" class="calendario" name="dataFinal" ngModel />
+          </ion-item>
+        </ion-col>
+        <ion-col>
           <button type="submit" size="small">
             Filtrar
           </button>
         </ion-col>
       </ion-row>
     </ion-grid>
-  </form>
+  </form> -->
 
   <ion-content [fullscreen]="true">
     <ion-grid style="font-size: 12px">

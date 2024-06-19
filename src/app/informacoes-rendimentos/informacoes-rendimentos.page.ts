@@ -65,13 +65,54 @@ export class InformacoesRendimentosPage implements OnInit {
   }
 
   filtrarAvaliacoes(form: any) {
-    const { dataInicio, dataFinal } = form;
-    if (dataInicio && dataFinal) {
-      this.carregarAvaliacoes(dataInicio, dataFinal);
+    const { dataInicio, dataFinal, categoria } = form;
+
+    let query: AngularFirestoreCollection<Avaliacao>;
+
+    if (dataInicio && dataFinal && categoria) {
+      const startDate = new Date(`${dataInicio}T00:00:00.000Z`);
+      const endDate = new Date(`${dataFinal}T23:59:59.999Z`);
+
+      query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
+        ref.where('dataAtividade', '>=', startDate.toISOString())
+           .where('dataAtividade', '<=', endDate.toISOString())
+           .where('categoria', '==', categoria)
+      );
+    } else if (dataInicio && dataFinal) {
+      const startDate = new Date(`${dataInicio}T00:00:00.000Z`);
+      const endDate = new Date(`${dataFinal}T23:59:59.999Z`);
+
+      query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
+        ref.where('dataAtividade', '>=', startDate.toISOString())
+           .where('dataAtividade', '<=', endDate.toISOString())
+      );
+    } else if (categoria) {
+      query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
+        ref.where('categoria', '==', categoria)
+      );
     } else {
-      this.carregarAvaliacoes();
+      query = this.firestore.collection<Avaliacao>('avaliacaoAtividades');
     }
+
+    query.snapshotChanges().subscribe(avaliacoes => {
+      this.avaliacoes = avaliacoes.map(a => {
+        const data = a.payload.doc.data() as Avaliacao;
+        const id = a.payload.doc.id;
+        return { ...data, id };
+      });
+      this.ordenarAvaliacoesPorPontuacao();
+    });
   }
+
+
+  // filtrarAvaliacoes(form: any) {
+  //   const { dataInicio, dataFinal } = form;
+  //   if (dataInicio && dataFinal) {
+  //     this.carregarAvaliacoes(dataInicio, dataFinal);
+  //   } else {
+  //     this.carregarAvaliacoes();
+  //   }
+  // }
 
   ordenarAvaliacoesPorPontuacao() {
     this.avaliacoes.sort((a, b) => b.pontuacao - a.pontuacao);
@@ -305,146 +346,6 @@ export class InformacoesRendimentosPage implements OnInit {
 
     return reportContent;
 }
-
-
-
-//   generateRankingReport(): string {
-//     const rankIcons: { [key: number]: string } = {
-//         1: '../../assets/icon/ranktop1.png',
-//         2: '../../assets/icon/ranktop2.png',
-//         3: '../../assets/icon/ranktop3.png'
-//     };
-
-//     let reportContent = `
-//     <style>
-//     body {
-//         font-family: 'Lexend', "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-//         font-size: 12px;
-//     }
-//     @page {
-//         size: A4;
-//         margin: 3cm 2cm 2cm 3cm;
-//     }
-//     table {
-//         width: 100%;
-//         border-collapse: collapse;
-//         font-family: 'Lexend', "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-//         font-size: 12px;
-//     }
-//     th, td {
-//         border: 1px solid #dddddd;
-//         text-align: left;
-//         padding: 8px;
-//     }
-//     th {
-//         background-color: #f2f2f2;
-//     }
-//     .header {
-//         text-align: center;
-//         font-size: 12px;
-//         font-weight: bold;
-//     }
-//     h1 {
-//         font-size: 12px;
-//     }
-//     .introduction {
-//         margin-top: 20px;
-//         margin-bottom: 20px;
-//     }
-//     .footer {
-//         margin-top: 20px;
-//         text-align: center;
-//     }
-//     .rank-icon {
-//         width: 20px;
-//         height: auto;
-//         vertical-align: middle;
-//     }
-//     .icons {
-//         border: 1px solid #dddddd;
-//         text-align: left;
-//         padding: 8px;
-//         align-items: center;
-//         text-align: center;
-//         align-content: center;
-//     }
-//     </style>
-//     <div class="header">
-//         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDXRe7PKFUR5gv7q6Bqq2RNyw1lyyCE7DbaaoQRd6I5w&s" alt="Brasão" style="width: 70px; height: auto;">
-//         <h1>GOVERNO DO ESTADO DE RONDÔNIA</h1>
-//         <h1>Superintendência Estadual de Compras e Licitações</h1>
-//         <br>
-//         <h1>RELATÓRIO DE RANKING POR CATEGORIA</h1>
-//     </div>
-//     <div class="introduction">
-//         <p>
-//         Prezados Senhores,
-//         </p>
-//         <p>
-//         É com satisfação que apresentamos o Relatório de Ranking por Categoria, destacando os três melhores colaboradores em cada categoria, de acordo com suas pontuações.
-//         </p>
-//     </div>`;
-
-//     const categorias = this.avaliacoes.reduce((acc: { [key: string]: Avaliacao[] }, avaliacao) => {
-//         if (!acc[avaliacao.categoria]) {
-//             acc[avaliacao.categoria] = [];
-//         }
-//         acc[avaliacao.categoria].push(avaliacao);
-//         return acc;
-//     }, {});
-
-//     for (const categoria in categorias) {
-//         const top3 = categorias[categoria].sort((a, b) => {
-//             if (categoria === 'Inovação') {
-//                 return b.nota - a.nota;
-//             } else {
-//                 return b.pontuacao - a.pontuacao;
-//             }
-//         }).slice(0, 3);
-
-//         reportContent += `
-//         <h2>${categoria}</h2>
-//         <table>
-//             <thead>
-//                 <tr>
-//                     <th>Rank</th>
-//                     <th>${categoria === 'Liderança' ? 'Setor' : 'Colaborador'}</th>
-//                     <th>Pontuação</th>
-//                 </tr>
-//             </thead>
-//             <tbody>`;
-
-//         top3.forEach((avaliacao, index) => {
-//             reportContent += `
-//             <tr>
-//                 <td class="icons">
-//                     <img src="${rankIcons[index + 1]}" alt="Ícone do Top ${index + 1}" class="rank-icon">
-//                     ${index + 1}°
-//                 </td>
-//                 <td>${categoria === 'Liderança' ? avaliacao.setor : avaliacao.colaborador}</td>
-//                 <td>${categoria === 'Inovação' ? avaliacao.nota : avaliacao.pontuacao}</td>
-//             </tr>`;
-//         });
-
-//         reportContent += `
-//             </tbody>
-//         </table>`;
-//     }
-
-//     reportContent += `
-//     <div class="footer">
-//         <p>
-//         Supel - Superintendência Estadual de Licitações<br>
-//         Localizado em: Palácio Rio Madeira<br>
-//         Endereço: Edifício Rio Pacaás Novos, Av. Farquar, 2986 - Pedrinhas, Porto Velho - RO, 76801-470<br>
-//         Telefone: (69) 3216-5318<br>
-//         Página: <span class="pageNumber"></span><br>
-//         Data e hora de impressão: <span class="printDateTime"></span>
-//         </p>
-//     </div>`;
-
-//     return reportContent;
-// }
 
   generatePontuacaoReport(): string {
     let reportContent = `
