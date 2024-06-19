@@ -4,6 +4,10 @@
   <ion-grid class="grid">
     <ion-row>
       <ion-col>
+        <ion-button fill="outline" class="botao-filtrar" color="#7c107c" (click)="openFilterMenu()">
+          <ion-icon name="funnel"></ion-icon>
+          Filtrar
+        </ion-button>
         <ion-button fill="outline" color="#7c107c" routerLink="/criar-avaliacao">
           CRIAR
         </ion-button>
@@ -20,7 +24,49 @@
 </ion-header>
 <ion-content>
 
-  <form #filtroForm="ngForm" (ngSubmit)="filtrarAvaliacoes(filtroForm.value)">
+  <ion-menu side="start" menuId="filterMenu" contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Filtrar Avaliações</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <form #filtroForm="ngForm" (ngSubmit)="filtrarAvaliacoes(filtroForm.value)">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <p>Data de Início</p>
+              <ion-item>
+                <input type="date" class="calendario" name="dataInicio" ngModel />
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <p>Data de Fim</p>
+              <ion-item>
+                <input type="date" class="calendario" name="dataFinal" ngModel />
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label>Categoria</ion-label>
+                <ion-select name="categoria" ngModel>
+                  <ion-select-option value="">Nenhum</ion-select-option>
+                  <ion-select-option value="Inovação">Inovação</ion-select-option>
+                  <ion-select-option value="Colaboração">Colaboração</ion-select-option>
+                  <ion-select-option value="Desenvolvimento">Desenvolvimento</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-button type="submit" size="" fill="outline" color="#7c107c" >Filtrar</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </form>
+    </ion-content>
+  </ion-menu>
+
+  <!-- <form #filtroForm="ngForm" (ngSubmit)="filtrarAvaliacoes(filtroForm.value)">
     <ion-grid>
       <ion-row>
         <ion-col>
@@ -50,30 +96,6 @@
         </ion-col>
         <ion-col>
           <button type="submit" size="small">Filtrar</button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </form>
-
-  <!-- <form #filtroForm="ngForm" (ngSubmit)="filtrarAvaliacoes(filtroForm.value)">
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label>Data de Início</ion-label>
-            <input type="date" class="calendario" name="dataInicio" ngModel />
-          </ion-item>
-        </ion-col>
-        <ion-col>
-          <ion-item>
-            <ion-label>Data de Fim</ion-label>
-            <input type="date" class="calendario" name="dataFinal" ngModel />
-          </ion-item>
-        </ion-col>
-        <ion-col>
-          <button type="submit" size="small">
-            Filtrar
-          </button>
         </ion-col>
       </ion-row>
     </ion-grid>

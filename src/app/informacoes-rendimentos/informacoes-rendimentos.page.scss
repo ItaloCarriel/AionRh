@@ -30,19 +30,27 @@ ion-icon[name="trash"] {
   text-align: center;
 }
 
-
-
 .calendario {
-  background-color: #9d3a9d;
-  color: white;
+  background-color: #7c107c;
+  color: #ffffff;
   border-radius: 4px;
-}
+  width: 50%;
+  max-width: 200px;
+  padding: 2px;
+  font-size: 14px;
+  font-size: 18px;
+  border: none;
+  border-radius: 3px;
+ }
 
 .filtrar {
-  background-color: #9d3a9d;
-  color: white;
+  background-color: #914891;
+  color: rgb(0, 0, 0);
   border-radius: 4px;
-
   margin-top: 10px;
   height: 10px;
 }
+.botao-filtrar{
+height: 2px;
+}
+

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { PopoverController } from '@ionic/angular';
+import { MenuController, PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../popover/popover.component';
 
 export interface Avaliacao {
@@ -33,8 +33,10 @@ export class InformacoesRendimentosPage implements OnInit {
   constructor(
     private firestore: AngularFirestore,
     private router: Router,
-    private popoverController: PopoverController
-  ) { }
+    private popoverController: PopoverController,
+    private menu: MenuController,
+  )
+   { }
 
   ngOnInit() {
     this.carregarAvaliacoes();
@@ -62,6 +64,10 @@ export class InformacoesRendimentosPage implements OnInit {
       });
       this.ordenarAvaliacoesPorPontuacao();
     });
+  }
+
+  openFilterMenu() {
+    this.menu.open('filterMenu');
   }
 
   filtrarAvaliacoes(form: any) {
