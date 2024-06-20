@@ -36,16 +36,28 @@ export class ColaboradoresPage implements OnInit {
     this.carregarDadosColaborador();
   }
 
-  carregarDadosColaborador(){
-    this.firestore.collection<Colaborador>('colaboradores').snapshotChanges().subscribe((snapshot) => {
-      this.colaboradores = snapshot.map(a => {
-        const data = a.payload.doc.data() as Colaborador;
-        const id = a.payload.doc.id;
-        const { id: dataId, ...rest } = data;
-        return { id, ...rest };
+  carregarDadosColaborador() {
+    this.firestore.collection<Colaborador>('colaboradores', ref => ref.orderBy('setor'))
+      .snapshotChanges()
+      .subscribe((snapshot) => {
+        this.colaboradores = snapshot.map(a => {
+          const data = a.payload.doc.data() as Colaborador;
+          const id = a.payload.doc.id;
+          return { ...data, id };
+        });
       });
-    });
   }
+
+  // carregarDadosColaborador(){
+  //   this.firestore.collection<Colaborador>('colaboradores').snapshotChanges().subscribe((snapshot) => {
+  //     this.colaboradores = snapshot.map(a => {
+  //       const data = a.payload.doc.data() as Colaborador;
+  //       const id = a.payload.doc.id;
+  //       const { id: dataId, ...rest } = data;
+  //       return { id, ...rest };
+  //     });
+  //   });
+  // }
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
