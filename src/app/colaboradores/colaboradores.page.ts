@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { ImportarPlanilhaPage } from './importar-planilha/importar-planilha.page';
 import { Router } from '@angular/router';
 
@@ -14,7 +14,6 @@ export interface Colaborador{
   telefone: string,
   dataAdmissao: Date;
   situacao: string
-
 }
 @Component({
   selector: 'app-colaboradores',
@@ -29,13 +28,14 @@ export class ColaboradoresPage implements OnInit {
   constructor(
     private router: Router,
     private firestore: AngularFirestore,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alertController: AlertController,
   ) { }
 
   ngOnInit() {
-
     this.carregarDadosColaborador();
   }
+
   carregarDadosColaborador(){
     this.firestore.collection<Colaborador>('colaboradores').snapshotChanges().subscribe((snapshot) => {
       this.colaboradores = snapshot.map(a => {
@@ -46,8 +46,6 @@ export class ColaboradoresPage implements OnInit {
       });
     });
   }
-
-
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -67,9 +65,35 @@ export class ColaboradoresPage implements OnInit {
     });
     await modal.present();
   }
+
   openEditar(colaborador: Colaborador) {
     this.router.navigate(['/editar-colaborador', colaborador.id]);
 
+  }
+
+  async confirmarExclusao(id: string, event: Event) {
+    event.stopPropagation();
+    const alert = await this.alertController.create({
+      header: 'Confirmar Exclusão',
+      message: 'Você tem certeza que deseja excluir este colaborador?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Exclusão cancelada');
+          }
+        }, {
+          text: 'Excluir',
+          handler: () => {
+            this.excluirColaborador(id, event);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   excluirColaborador(id: string, event: Event) {

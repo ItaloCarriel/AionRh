@@ -65,11 +65,16 @@
                   <ion-icon [color]="getIconColor(colaborador.situacao)" name="radio-button-on"></ion-icon>
                 </td>
                 <td>
+                  <span (click)="confirmarExclusao(colaborador.id, $event)" class="trash-icon">
+                    <ion-icon name="trash"></ion-icon>
+                  </span>
+                </td>
+                <!-- <td>
                   <span (click)="excluirColaborador(colaborador.id, $event)" class="trash-icon">
                     <ion-icon name="trash"></ion-icon>
                   </span>
                 </td>
-              </tr>
+              </tr> -->
             </ng-container>
           </tbody>
         </table>
