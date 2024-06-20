@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { MenuController, PopoverController } from '@ionic/angular';
+import { AlertController, MenuController, PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../popover/popover.component';
 
 export interface Avaliacao {
@@ -35,6 +35,7 @@ export class InformacoesRendimentosPage implements OnInit {
     private router: Router,
     private popoverController: PopoverController,
     private menu: MenuController,
+    private alertController: AlertController,
   )
    { }
 
@@ -126,6 +127,30 @@ export class InformacoesRendimentosPage implements OnInit {
 
   editarAvaliacao(avaliacao: Avaliacao) {
     this.router.navigate(['/editar-rendimento', avaliacao]);
+  }
+
+  async confirmarExclusao(id: string, event: Event) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar Exclusão',
+      message: 'Você tem certeza que deseja excluir esta avaliação?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Exclusão cancelada');
+          }
+        }, {
+          text: 'Excluir',
+          handler: () => {
+            this.excluirAvaliacao(id, event);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   excluirAvaliacao(id: string, event: Event) {
