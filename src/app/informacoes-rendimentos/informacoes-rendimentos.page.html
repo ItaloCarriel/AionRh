@@ -81,11 +81,12 @@
                 <th scope="col" title="Carga Horária">Carga Horária</th>
                 <th scope="col" title="Pontuação">Pontuação</th>
                 <th scope="col" title="Data Atividade">Data Atividade</th>
+                <th scope="col" title="Excluir">Excluir</th>
               </tr>
             </thead>
             <tbody class="p-2">
               <ng-container *ngFor="let avaliacao of avaliacoes">
-                <tr class="o_data_row" (click)="editarAvaliacao(avaliacao)">
+                <tr class="o_data_row" (dblclick)="editarAvaliacao(avaliacao)">
                   <td>{{ avaliacao.colaborador }}</td>
                   <td>
                     <span class="badge w-50 p-2 tw-bold" [ngClass]="getCategoriaClass(avaliacao.categoria)">
