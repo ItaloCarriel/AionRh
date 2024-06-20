@@ -51,26 +51,28 @@ export class DashboardsComponent implements OnInit {
       // Calcular média de pontuação por setor
       const mediaPontuacaoSetores: { [key: string]: number } = {};
       const contagemSetores: { [key: string]: number } = {};
+      const totalPontuacao: { [key: string]: number } = {};
 
       data.forEach(avaliacao => {
-        if (!mediaPontuacaoSetores[avaliacao.setor]) {
-          mediaPontuacaoSetores[avaliacao.setor] = 0;
+        if (!totalPontuacao[avaliacao.setor]) {
+          totalPontuacao[avaliacao.setor] = 0;
           contagemSetores[avaliacao.setor] = 0;
         }
         if (avaliacao.categoria === 'Inovação') {
-          mediaPontuacaoSetores[avaliacao.setor] += Number(avaliacao.nota);
+          totalPontuacao[avaliacao.setor] += Number(avaliacao.nota);
         } else {
-          mediaPontuacaoSetores[avaliacao.setor] += Number(avaliacao.pontuacao);
+          totalPontuacao[avaliacao.setor] += Number(avaliacao.pontuacao);
         }
         contagemSetores[avaliacao.setor]++;
       });
 
-      for (const setor in mediaPontuacaoSetores) {
-        mediaPontuacaoSetores[setor] /= contagemSetores[setor];
+      for (const setor in totalPontuacao) {
+        mediaPontuacaoSetores[setor] = totalPontuacao[setor]/contagemSetores[setor];
       }
 
       const sortedSetores = Object.keys(mediaPontuacaoSetores).sort((a, b) => mediaPontuacaoSetores[b] - mediaPontuacaoSetores[a]);
       const mediaPontuacoes = sortedSetores.map(setor => mediaPontuacaoSetores[setor]);
+      const totalPontuacoes = sortedSetores.map(setor => totalPontuacao[setor]);
 
       // Desenhar os gráficos
       const orderData = data.sort((a, b) => Number(b.pontuacao) - Number(a.pontuacao));
@@ -79,7 +81,7 @@ export class DashboardsComponent implements OnInit {
       const colaboradores = orderData.map(avaliacao => avaliacao.colaborador);
       const categorias = orderData.map(avaliacao => avaliacao.categoria);
 
-      this.drawBarChart(this.barChartMaiorPontuacao.nativeElement, setores, pontuacoes, 'Setor com maior pontuação');
+      this.drawBarChart(this.barChartMaiorPontuacao.nativeElement, sortedSetores, totalPontuacoes, 'Setor com maior pontuação');
       this.drawBarChart(this.barChartColaboradoresPontuacao.nativeElement, colaboradores, pontuacoes, 'Colaboradores X Quantidade de Pontos');
       this.drawBarChart(this.pieChartSetorMediaPontuacao.nativeElement, sortedSetores, mediaPontuacoes, 'Setor X Média de Pontuação');
       this.drawPieChart(this.pieCharColaboradorCategoria.nativeElement, colaboradores, categorias, 'Colaborador x Categoria');

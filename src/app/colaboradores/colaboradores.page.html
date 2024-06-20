@@ -21,7 +21,65 @@
   </ion-grid>
 </ion-header>
 
+
 <ion-content [fullscreen]="true">
+  <ion-grid style="font-size: 12px" class="container-conteudo">
+    <div class="card-container">
+      <div class="table-responsive">
+        <table class="table align-middle table-edge table-nowrap mb-0 table-hover table-borderless">
+          <thead class="table-light">
+            <tr>
+              <th>
+                <div class="custom-control custom-checkbox">
+                  <label for="checkbox-597" class="custom-control-label">​</label>
+                </div>
+              </th>
+              <th scope="col" title="Matrícula">Matrícula</th>
+              <th scope="col" title="Nome Completo">Nome Completo</th>
+              <th scope="col" title="Setor">Setor</th>
+              <th scope="col" title="Cargo">Cargo</th>
+              <th scope="col" title="Data de Admissão">Data de Admissão</th>
+              <th scope="col" title="E-mail">E-mail</th>
+              <th scope="col" title="Telefone">Telefone</th>
+              <th scope="col" title="Situação">Situação</th>
+              <th scope="col" title="Action">Excluir</th>
+            </tr>
+          </thead>
+          <tbody class="p-2">
+            <ng-container *ngFor="let colaborador of colaboradores">
+              <tr class="o_data_row" (dblclick)="openEditar(colaborador)">
+                <td class="o_list_record_selector">
+                  <div class="custom-control custom-checkbox">
+                    <label for="{{ colaborador.matricula }}" class="custom-control-label">​</label>
+                  </div>
+                </td>
+                <td>{{ colaborador.matricula }}</td>
+                <td>{{ colaborador.nomeCompleto }}</td>
+                <td>{{ colaborador.setor }}</td>
+                <td>{{ colaborador.cargo }}</td>
+                <td>{{ colaborador.dataAdmissao | date: 'dd/MM/yyyy'}}</td>
+                <td>{{ colaborador.email }}</td>
+                <td>{{ colaborador.telefone }}</td>
+                <td>
+                  {{ colaborador.situacao }}
+                  <ion-icon [color]="getIconColor(colaborador.situacao)" name="radio-button-on"></ion-icon>
+                </td>
+                <td>
+                  <span (click)="excluirColaborador(colaborador.id, $event)" class="trash-icon">
+                    <ion-icon name="trash"></ion-icon>
+                  </span>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ion-grid>
+</ion-content>
+
+
+<!-- <ion-content [fullscreen]="true">
   <ion-grid style="font-size: 12px">
     <div class="card m-3 border-0 flex-fill wm-100 ">
       <div class="table-responsive">
@@ -77,4 +135,4 @@
       </div>
     </div>
   </ion-grid>
-</ion-content>
+</ion-content> -->

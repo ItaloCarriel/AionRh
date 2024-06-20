@@ -16,3 +16,40 @@ ion-icon[name="trash"] {
   color: #6d197b !important;
   font-size: 12px !important;
 }
+.card-container {
+  background-color: #e6c9c900;
+  padding: 48px;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 4px -6px 26px -25px rgba(0, 0, 0, 0.8509803922);
+}
+
+.container-conteudo {
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);
+  padding: 15px;
+  width: auto;
+}
+
+.table {
+  font-size: 12px;
+}
+
+.custom-checkbox .custom-control-label::before,
+.custom-checkbox .custom-control-label::after {
+  top: 0.25rem;
+  left: 0.25rem;
+}
+
+.trash-icon {
+  cursor: pointer;
+}
+
+ion-icon[name="trash"] {
+  font-size: 18px;
+  color: rgba(253, 0, 0, 0.5);
+}
+
+ion-icon[name="trash"]:hover {
+  color: rgba(253, 0, 0, 0.8);
+}
