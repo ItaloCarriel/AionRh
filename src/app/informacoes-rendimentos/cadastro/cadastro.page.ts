@@ -82,10 +82,13 @@ export class CadastroPage implements OnInit {
       cargaHorariaControl?.clearValidators();
       pontuacaoControl?.clearValidators();
       notaControl?.setValidators([Validators.required]);
+      cargaHorariaControl?.setValue(null);
+      pontuacaoControl?.setValue(null);
     } else {
       cargaHorariaControl?.setValidators([Validators.required]);
       pontuacaoControl?.setValidators([Validators.required]);
       notaControl?.clearValidators();
+      notaControl?.setValue(null);
     }
 
     cargaHorariaControl?.updateValueAndValidity();

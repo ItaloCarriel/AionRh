@@ -14,6 +14,7 @@ interface Avaliacao {
   pontuacao: number;
   dataAtividade: string;
   colaborador: string;
+  nota:number;
 }
 
 @Component({
@@ -79,11 +80,14 @@ export class EditarRendimentoComponent implements OnInit {
     if (categoria === 'Inovação') {
       cargaHorariaControl?.clearValidators();
       pontuacaoControl?.clearValidators();
+      cargaHorariaControl?.setValue(null);
+      pontuacaoControl?.setValue(null);
       notaControl?.setValidators([Validators.required]);
     } else {
       cargaHorariaControl?.setValidators([Validators.required]);
       pontuacaoControl?.setValidators([Validators.required]);
       notaControl?.clearValidators();
+      notaControl?.setValue(null);
     }
 
     cargaHorariaControl?.updateValueAndValidity();
@@ -171,7 +175,7 @@ export class EditarRendimentoComponent implements OnInit {
   }
 
   discardChanges() {
-    this.loadAvaliacaoData(); // Recarrega os dados originais
+    this.loadAvaliacaoData();
   }
 
   verifyField(fieldName: string) {

@@ -79,7 +79,7 @@
                 <th scope="col" title="Categoria">Categoria</th>
                 <th scope="col" title="Capacitação Prevista no PAC">Capacitação Prevista no PAC</th>
                 <th scope="col" title="Carga Horária">Carga Horária</th>
-                <th scope="col" title="Pontuação">Pontuação</th>
+                <th scope="col" title="Pontuação">Pontuação/Nota</th>
                 <th scope="col" title="Data Atividade">Data Atividade</th>
                 <th scope="col" title="Excluir">Excluir</th>
               </tr>
@@ -94,8 +94,8 @@
                     </span>
                   </td>
                   <td>{{ avaliacao.previstoPAC }}</td>
-                  <td>{{ avaliacao.cargaHoraria }}{{ avaliacao.nota }}</td>
-                  <td>{{ avaliacao.pontuacao }}</td>
+                  <td>{{ avaliacao.cargaHoraria }}</td>
+                  <td>{{ avaliacao.pontuacao }}{{ avaliacao.nota }}</td>
                   <td>{{ avaliacao.dataAtividade | date: 'dd/MM/yyyy' }}</td>
                   <td>
                     <span (click)="confirmarExclusao(avaliacao.id, $event)">
