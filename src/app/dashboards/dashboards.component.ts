@@ -71,10 +71,10 @@ export class DashboardsComponent implements OnInit {
       }
 
       const sortedSetores = Object.keys(mediaPontuacaoSetores).sort((a, b) => mediaPontuacaoSetores[b] - mediaPontuacaoSetores[a]);
-      const mediaPontuacoes = sortedSetores.map(setor => mediaPontuacaoSetores[setor]);
-      const totalPontuacoes = sortedSetores.map(setor => mediaPontuacaoSetores[setor]);
 
-      // Desenhar os gráficos
+      const mediaPontuacoes = sortedSetores.map(setor => Number(mediaPontuacaoSetores[setor].toFixed(2)));
+      const totalPontuacoes = sortedSetores.map(setor => Number(mediaPontuacaoSetores[setor].toFixed(2)));
+
       const orderData = data.sort((a, b) => Number(b.pontuacao) - Number(a.pontuacao));
       const setores = orderData.map(avaliacao => avaliacao.setor);
       const pontuacoes = orderData.map(avaliacao => avaliacao.nota || parseFloat(avaliacao.pontuacao));
