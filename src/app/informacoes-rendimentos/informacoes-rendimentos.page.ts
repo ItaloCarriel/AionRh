@@ -349,7 +349,7 @@ export class InformacoesRendimentosPage implements OnInit {
         </thead>
         <tbody>`;
 
-    sortedSetores.forEach((setor, index) => {
+    sortedSetores.slice(0, 3).forEach((setor, index) => {
         reportContent += `
         <tr>
             <td class="icons">
