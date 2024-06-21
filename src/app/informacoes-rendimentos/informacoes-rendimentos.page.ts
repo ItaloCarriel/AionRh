@@ -439,13 +439,18 @@ export class InformacoesRendimentosPage implements OnInit {
         <thead>
           <tr>
             <th>Colaborador</th>
-            <th>Pontuação</th>
+             <th>${this.avaliacoes.some(avaliacao => avaliacao.categoria === 'Inovação') ? 'Pontuação/Nota' : 'Pontuação'}</th>
           </tr>
         </thead>
         <tbody>`;
 
     this.avaliacoes.forEach((avaliacao) => {
-      reportContent += `<tr><td>${avaliacao.colaborador}</td><td>${avaliacao.pontuacao}</td></tr>`;
+      reportContent +=
+      `<tr>
+            <td>${avaliacao.colaborador}</td>
+           <td>${avaliacao.categoria === 'Inovação' ? avaliacao.nota : avaliacao.pontuacao}</td>
+      </tr>`;
+
     });
 
     reportContent += `

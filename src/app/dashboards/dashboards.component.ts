@@ -72,12 +72,12 @@ export class DashboardsComponent implements OnInit {
 
       const sortedSetores = Object.keys(mediaPontuacaoSetores).sort((a, b) => mediaPontuacaoSetores[b] - mediaPontuacaoSetores[a]);
       const mediaPontuacoes = sortedSetores.map(setor => mediaPontuacaoSetores[setor]);
-      const totalPontuacoes = sortedSetores.map(setor => totalPontuacao[setor]);
+      const totalPontuacoes = sortedSetores.map(setor => mediaPontuacaoSetores[setor]);
 
       // Desenhar os gráficos
       const orderData = data.sort((a, b) => Number(b.pontuacao) - Number(a.pontuacao));
       const setores = orderData.map(avaliacao => avaliacao.setor);
-      const pontuacoes = orderData.map(avaliacao => parseFloat(avaliacao.pontuacao));
+      const pontuacoes = orderData.map(avaliacao => avaliacao.nota || parseFloat(avaliacao.pontuacao));
       const colaboradores = orderData.map(avaliacao => avaliacao.colaborador);
       const categorias = orderData.map(avaliacao => avaliacao.categoria);
 
