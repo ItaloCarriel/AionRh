@@ -11,6 +11,8 @@ import { AuthService } from '../shared/services/auth-service.service';
 })
 export class LoginPage {
   loginForm: FormGroup;
+  passwordType: string = 'password';
+  passwordIcon: string = 'eye-off';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,7 +27,6 @@ export class LoginPage {
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
-
 
   async login() {
     if (this.loginForm.valid) {

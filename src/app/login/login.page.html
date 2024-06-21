@@ -12,8 +12,10 @@
       <ion-input label="E-mail" formControlName="email" type="email" label-placement="floating" fill="outline"
         placeholder="E-mail"></ion-input>
 
-      <ion-input label="Senha" formControlName="password" type="password" label-placement="floating" fill="outline"
-        placeholder="Senha"></ion-input>
+        <ion-input label="Senha" formControlName="password" type="password" label-placement="floating" fill="outline"
+        placeholder="Senha">
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
 
       <ion-button fill="outline" color="#9d3a9d" expand="block" (click)="login()">Acessar</ion-button>
 
