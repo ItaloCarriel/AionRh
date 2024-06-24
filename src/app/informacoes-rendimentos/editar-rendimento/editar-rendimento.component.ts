@@ -153,7 +153,14 @@ export class EditarRendimentoComponent implements OnInit {
         const alert = await this.alertController.create({
           header: 'Sucesso',
           message: 'Rendimento atualizado com sucesso!',
-          buttons: ['OK']
+          buttons: [
+            {
+              text: 'OK',
+              handler: () => {
+                this.location.back();
+              },
+            },
+          ],
         });
         await alert.present();
       } catch (error) {
