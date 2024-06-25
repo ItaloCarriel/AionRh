@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { Router } from '@angular/router';
 import { AlertController, MenuController, PopoverController } from '@ionic/angular';
 import { PopoverComponent } from '../popover/popover.component';
+import { Colaborador } from './cadastro/cadastro.page';
 
 export interface Avaliacao {
   id: string;
@@ -13,8 +14,8 @@ export interface Avaliacao {
   dataAtividade: string;
   avaliacao: string;
   colaborador: string;
-  nota:number;
-  setor:string;
+  nota: number;
+  setor: string;
 }
 
 interface Categorias {
@@ -29,6 +30,7 @@ interface Categorias {
 export class InformacoesRendimentosPage implements OnInit {
   pageTitle: string = 'Registro de Avaliações';
   avaliacoes: Avaliacao[] = [];
+  colaboradores: Colaborador[] = [];
 
   constructor(
     private firestore: AngularFirestore,
@@ -36,11 +38,39 @@ export class InformacoesRendimentosPage implements OnInit {
     private popoverController: PopoverController,
     private menu: MenuController,
     private alertController: AlertController,
-  )
-   { }
+  ) { }
 
   ngOnInit() {
     this.carregarAvaliacoes();
+    this.carregarDadosColaborador();
+  }
+
+  carregarDadosColaborador() {
+    this.firestore
+      .collection<Colaborador>('colaboradores', (ref) => ref.orderBy('setor'))
+      .snapshotChanges()
+      .subscribe((snapshot) => {
+        this.colaboradores = snapshot.map((a) => {
+          const data = a.payload.doc.data() as Colaborador;
+          const id = a.payload.doc.id;
+          return { ...data, id };
+        });
+      });
+  }
+
+  ordenarSetores() {
+    const contagemSetores: { [key: string]: number } = {};
+
+    for (const colaborador of this.colaboradores) {
+      const setor = colaborador.setor.trim();
+
+      if (contagemSetores.hasOwnProperty(setor)) {
+        contagemSetores[setor]++;
+      } else {
+        contagemSetores[setor] = 1;
+      }
+    }
+    return contagemSetores;
   }
 
   carregarAvaliacoes(dataInicio?: string, dataFim?: string) {
@@ -82,8 +112,8 @@ export class InformacoesRendimentosPage implements OnInit {
 
       query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
         ref.where('dataAtividade', '>=', startDate.toISOString())
-           .where('dataAtividade', '<=', endDate.toISOString())
-           .where('categoria', '==', categoria)
+          .where('dataAtividade', '<=', endDate.toISOString())
+          .where('categoria', '==', categoria)
       );
     } else if (dataInicio && dataFinal) {
       const startDate = new Date(`${dataInicio}T00:00:00.000Z`);
@@ -91,7 +121,7 @@ export class InformacoesRendimentosPage implements OnInit {
 
       query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
         ref.where('dataAtividade', '>=', startDate.toISOString())
-           .where('dataAtividade', '<=', endDate.toISOString())
+          .where('dataAtividade', '<=', endDate.toISOString())
       );
     } else if (categoria) {
       query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
@@ -183,7 +213,7 @@ export class InformacoesRendimentosPage implements OnInit {
       reportContent = this.generatePontuacaoReport();
     } else if (type === 'categorias') {
       reportContent = this.generateCategoriasReport();
-    }else if (type === 'ranking') {
+    } else if (type === 'ranking') {
       reportContent = this.generateRankingReport();
     }
 
@@ -193,9 +223,9 @@ export class InformacoesRendimentosPage implements OnInit {
 
   generateRankingReport(): string {
     const rankIcons: { [key: number]: string } = {
-        1: '../../assets/icon/ranktop1.png',
-        2: '../../assets/icon/ranktop2.png',
-        3: '../../assets/icon/ranktop3.png'
+      1: '../../assets/icon/ranktop1.png',
+      2: '../../assets/icon/ranktop2.png',
+      3: '../../assets/icon/ranktop3.png'
     };
 
     let reportContent = `
@@ -269,23 +299,23 @@ export class InformacoesRendimentosPage implements OnInit {
     </div>`;
 
     const categorias = this.avaliacoes.reduce((acc: { [key: string]: Avaliacao[] }, avaliacao) => {
-        if (!acc[avaliacao.categoria]) {
-            acc[avaliacao.categoria] = [];
-        }
-        acc[avaliacao.categoria].push(avaliacao);
-        return acc;
+      if (!acc[avaliacao.categoria]) {
+        acc[avaliacao.categoria] = [];
+      }
+      acc[avaliacao.categoria].push(avaliacao);
+      return acc;
     }, {});
 
     for (const categoria in categorias) {
-        const top3 = categorias[categoria].sort((a, b) => {
-            if (categoria === 'Inovação') {
-                return b.nota - a.nota;
-            } else {
-                return b.pontuacao - a.pontuacao;
-            }
-        }).slice(0, 3);
+      const top3 = categorias[categoria].sort((a, b) => {
+        if (categoria === 'Inovação') {
+          return b.nota - a.nota;
+        } else {
+          return b.pontuacao - a.pontuacao;
+        }
+      }).slice(0, 3);
 
-        reportContent += `
+      reportContent += `
         <h2>${categoria}</h2>
         <table>
             <thead>
@@ -297,8 +327,8 @@ export class InformacoesRendimentosPage implements OnInit {
             </thead>
             <tbody>`;
 
-        top3.forEach((avaliacao, index) => {
-            reportContent += `
+      top3.forEach((avaliacao, index) => {
+        reportContent += `
             <tr>
                 <td class="icons">
                     <img src="${rankIcons[index + 1]}" alt="Ícone do Top ${index + 1}" class="rank-icon">
@@ -307,9 +337,9 @@ export class InformacoesRendimentosPage implements OnInit {
                 <td>${categoria === 'Liderança' ? avaliacao.setor : avaliacao.colaborador}</td>
                 <td>${categoria === 'Inovação' ? avaliacao.nota : avaliacao.pontuacao}</td>
             </tr>`;
-        });
+      });
 
-        reportContent += `
+      reportContent += `
             </tbody>
         </table>`;
     }
@@ -317,22 +347,23 @@ export class InformacoesRendimentosPage implements OnInit {
     // Calcular média de pontuação ou nota por setor
     const mediaPontuacaoSetores: { [key: string]: number } = {};
     const contagemSetores: { [key: string]: number } = {};
+    const colaboradoresPorSetores = this.ordenarSetores()
+    const totalPontuacao: { [key: string]: number } = {};
 
     this.avaliacoes.forEach(avaliacao => {
-        if (!mediaPontuacaoSetores[avaliacao.setor]) {
-            mediaPontuacaoSetores[avaliacao.setor] = 0;
-            contagemSetores[avaliacao.setor] = 0;
-        }
-        if (avaliacao.categoria === 'Inovação') {
-          mediaPontuacaoSetores[avaliacao.setor] += Number(avaliacao.nota);
-        } else {
-            mediaPontuacaoSetores[avaliacao.setor] += Number(avaliacao.pontuacao);
-        }
-        contagemSetores[avaliacao.setor]++;
+      const setor = avaliacao.setor.trim();
+      if (!totalPontuacao[setor]) {
+        totalPontuacao[setor] = 0;
+      }
+      if (avaliacao.categoria === 'Inovação') {
+        totalPontuacao[setor] += Number(avaliacao.nota);
+      } else {
+        totalPontuacao[setor] += Number(avaliacao.pontuacao);
+      }
     });
 
-    for (const setor in mediaPontuacaoSetores) {
-        mediaPontuacaoSetores[setor] /= contagemSetores[setor];
+    for (const setor in totalPontuacao) {
+      mediaPontuacaoSetores[setor] = totalPontuacao[setor] / colaboradoresPorSetores[setor];
     }
 
     const sortedSetores = Object.keys(mediaPontuacaoSetores).sort((a, b) => mediaPontuacaoSetores[b] - mediaPontuacaoSetores[a]);
@@ -350,7 +381,7 @@ export class InformacoesRendimentosPage implements OnInit {
         <tbody>`;
 
     sortedSetores.slice(0, 3).forEach((setor, index) => {
-        reportContent += `
+      reportContent += `
         <tr>
             <td class="icons">
                     <img src="${rankIcons[index + 1]}" alt="Ícone do Top ${index + 1}" class="rank-icon">
@@ -376,7 +407,7 @@ export class InformacoesRendimentosPage implements OnInit {
     </div>`;
 
     return reportContent;
-}
+  }
 
   generatePontuacaoReport(): string {
     let reportContent = `
@@ -446,7 +477,7 @@ export class InformacoesRendimentosPage implements OnInit {
 
     this.avaliacoes.forEach((avaliacao) => {
       reportContent +=
-      `<tr>
+        `<tr>
             <td>${avaliacao.colaborador}</td>
            <td>${avaliacao.categoria === 'Inovação' ? avaliacao.nota : avaliacao.pontuacao}</td>
       </tr>`;
@@ -537,7 +568,7 @@ export class InformacoesRendimentosPage implements OnInit {
       <tbody>`;
 
     this.avaliacoes.forEach((avaliacao) => {
-        reportContent += `
+      reportContent += `
         <tr>
           <td>${avaliacao.categoria}</td>
           <td>${avaliacao.colaborador}</td>
@@ -560,7 +591,7 @@ export class InformacoesRendimentosPage implements OnInit {
     </div>`;
 
     return reportContent;
-}
+  }
 
   printReport(reportContent: string) {
     const newWindow = window.open('', '_blank', 'width=800, height=600');

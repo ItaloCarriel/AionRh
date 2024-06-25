@@ -7,7 +7,7 @@
   <ion-content [fullscreen]="true">
     <form [formGroup]="avaliacaoForm" (ngSubmit)="update()" class="container mt-4">
       <ion-grid>
-        <div class="row">
+        <div class="row my-3">
           <div class="col">
             <div class="form-group">
               <label for="colaborador">Colaborador:</label>
@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row my-3">
           <div class="col">
             <div class="form-group">
               <label for="categoria">Categoria:</label>
@@ -73,7 +73,7 @@
             </div>
           </div>
 
-          <div class="row" *ngIf="avaliacaoForm.get('categoria')?.value === 'Inovação'" style="width: 25%;">
+          <div class="row my-3" *ngIf="avaliacaoForm.get('categoria')?.value === 'Inovação'" style="width: 25%;">
             <div class="col">
               <div class="form-group">
                 <label for="nota">Nota:</label>
@@ -84,7 +84,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row my-3">
           <div class="col">
             <div class="form-group">
               <label for="dataAtividade">Data Atividade:</label>
