@@ -31,24 +31,22 @@ export interface Avaliacao {
   styleUrls: ['./dashboards.component.scss'],
 })
 export class DashboardsComponent implements OnInit {
-  avaliacao: Avaliacao[] = [];
+  avaliacoes: Avaliacao[] = [];
   colaboradores: Colaborador[] = [];
-  totalColaboradores = {}
+  totalColaboradores = {};
   @ViewChild('barChartMaiorPontuacao') barChartMaiorPontuacao: any;
   @ViewChild('barChartColaboradoresPontuacao')
   barChartColaboradoresPontuacao: any;
   @ViewChild('pieChartSetorMediaPontuacao') pieChartSetorMediaPontuacao: any;
   @ViewChild('pieCharColaboradorCategoria') pieCharColaboradorCategoria: any;
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore) {}
 
   ngOnInit() {
-
     this.carregarDadosColaborador();
 
     this.loadChartData();
     console.log(this.ordenarSetores());
-
   }
 
   carregarDadosColaborador() {
@@ -64,8 +62,8 @@ export class DashboardsComponent implements OnInit {
       });
   }
 
+  //TODO: Refatorar  como Serviço para aplicar DRY(Don't Repeat Yourself)
   ordenarSetores() {
-    debugger
     const contagemSetores: { [key: string]: number } = {};
 
     for (const colaborador of this.colaboradores) {
@@ -80,6 +78,32 @@ export class DashboardsComponent implements OnInit {
     return contagemSetores;
   }
 
+  ordenarColaboradoresPorNotasSomadas(data: Avaliacao[]) {
+    // Criar um objeto vazio para armazenar as somas de notas por colaborador
+    const somaNotasPorColaborador: { [key: string]: number } = {};
+
+    // Percorrer cada colaborador nos dados
+    for (const colaborador of data) {
+      const colaboradorNome = colaborador.colaborador;
+
+      // Verificar se o nome do colaborador já está no objeto
+      if (somaNotasPorColaborador.hasOwnProperty(colaboradorNome)) {
+        // Se o nome já existir, somar as notas novas à soma existente
+        somaNotasPorColaborador[colaboradorNome] +=
+          colaborador.nota || parseFloat(colaborador.pontuacao);
+      } else {
+        // Se o nome ainda não existir, adicionar o nome e a soma das notas ao objeto
+        somaNotasPorColaborador[colaboradorNome] =
+          colaborador.nota || parseFloat(colaborador.pontuacao);
+      }
+    }
+
+    // Converter o objeto em um array de colaboradores ordenados
+
+    console.log(somaNotasPorColaborador);
+    return somaNotasPorColaborador;
+  }
+
   async loadChartData() {
     this.firestore
       .collection<Avaliacao>('avaliacaoAtividades')
@@ -87,7 +111,7 @@ export class DashboardsComponent implements OnInit {
       .subscribe(async (data: Avaliacao[]) => {
         // Calcular média de pontuação por setor
         const mediaPontuacaoSetores: { [key: string]: number } = {};
-        const colaboradoresPorSetores = await this.ordenarSetores()
+        const colaboradoresPorSetores = await this.ordenarSetores();
         const totalPontuacao: { [key: string]: number } = {};
 
         data.forEach((avaliacao) => {
@@ -103,21 +127,38 @@ export class DashboardsComponent implements OnInit {
         });
 
         for (const setor in totalPontuacao) {
-          mediaPontuacaoSetores[setor] = totalPontuacao[setor] / colaboradoresPorSetores[setor];
+          mediaPontuacaoSetores[setor] =
+            totalPontuacao[setor] / colaboradoresPorSetores[setor];
         }
 
-        const sortedSetores = Object.keys(mediaPontuacaoSetores).sort((a, b) => mediaPontuacaoSetores[b] - mediaPontuacaoSetores[a]);
+        const colaboradoresPorPontuacao =
+          await this.ordenarColaboradoresPorNotasSomadas(data);
 
-        const mediaPontuacoes = sortedSetores.map(setor => Number(mediaPontuacaoSetores[setor].toFixed(2)));
-        const totalPontuacoes = sortedSetores.map(setor => Number(totalPontuacao[setor]));
+        const sortedColaboradores = Object.keys(colaboradoresPorPontuacao).sort(
+          (a, b) => colaboradoresPorPontuacao[b] - colaboradoresPorPontuacao[a]
+        );
+
+        const maioresPontuacoes = sortedColaboradores.map((colaborador) =>
+          Number(colaboradoresPorPontuacao[colaborador])
+        );
+
+        const sortedSetores = Object.keys(mediaPontuacaoSetores).sort(
+          (a, b) => mediaPontuacaoSetores[b] - mediaPontuacaoSetores[a]
+        );
+        const mediaPontuacoes = sortedSetores.map((setor) =>
+          Number(mediaPontuacaoSetores[setor].toFixed(2))
+        );
+        const totalPontuacoes = sortedSetores.map((setor) =>
+          Number(totalPontuacao[setor])
+        );
 
         const orderData = data.sort(
           (a, b) => Number(b.pontuacao) - Number(a.pontuacao)
         );
         const setores = orderData.map((avaliacao) => avaliacao.setor);
-        const pontuacoes = orderData.map(
-          (avaliacao) => avaliacao.nota || parseFloat(avaliacao.pontuacao)
-        );
+        const pontuacoes = orderData
+          .map((avaliacao) => parseFloat(avaliacao.pontuacao) || avaliacao.nota)
+          .sort((a, b) => b - a);
         const colaboradores = orderData.map(
           (avaliacao) => avaliacao.colaborador
         );
@@ -131,9 +172,9 @@ export class DashboardsComponent implements OnInit {
         );
         this.drawBarChart(
           this.barChartColaboradoresPontuacao.nativeElement,
-          colaboradores,
-          pontuacoes,
-          'Colaboradores X Quantidade de Pontos'
+          sortedColaboradores,
+          maioresPontuacoes,
+          'Desempenho Geral'
         );
         this.drawBarChart(
           this.pieChartSetorMediaPontuacao.nativeElement,
