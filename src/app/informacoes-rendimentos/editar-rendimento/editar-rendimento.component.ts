@@ -15,6 +15,7 @@ interface Avaliacao {
   dataAtividade: string;
   colaborador: string;
   nota:number;
+  titulo :string;
 }
 
 @Component({
@@ -45,6 +46,7 @@ export class EditarRendimentoComponent implements OnInit {
       colaborador: ['', Validators.required],
       avaliacao: [''],
       nota: [''],
+      titulo : [''],
     });
   }
 
