@@ -93,6 +93,13 @@
       <div class="row my-3">
         <div class="col">
           <div class="form-group">
+            <label for="titulo">Título</label>
+            <input type="text" class="form-control" required
+              formControlName="titulo"name="titulo" />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
             <label for="dataAtividade">Data Atividade:</label>
             <input type="date" class="form-control {{dataAtividade && 'is-invalid'}}" id="dataAtividade" required
               formControlName="dataAtividade" name="dataAtividade" />

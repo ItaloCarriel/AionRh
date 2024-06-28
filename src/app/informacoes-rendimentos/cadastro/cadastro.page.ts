@@ -17,6 +17,7 @@ export interface Colaborador {
   telefone: string;
   dataAdmissao: Date;
   situacao: string;
+  titulo:string
 }
 
 @Component({
@@ -46,6 +47,7 @@ export class CadastroPage implements OnInit {
       nota: [''],
       dataAtividade: ['', Validators.required],
       avaliacao: [''],
+      titulo :['']
     });
   }
   ngOnInit() {
