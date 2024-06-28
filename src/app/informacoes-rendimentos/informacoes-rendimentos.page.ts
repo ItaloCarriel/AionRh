@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { AlertController, MenuController, PopoverController } from '@ionic/angular';
+import {
+  AlertController,
+  MenuController,
+  PopoverController,
+} from '@ionic/angular';
 import { PopoverComponent } from '../popover/popover.component';
 import { Colaborador } from './cadastro/cadastro.page';
 
@@ -37,8 +44,8 @@ export class InformacoesRendimentosPage implements OnInit {
     private router: Router,
     private popoverController: PopoverController,
     private menu: MenuController,
-    private alertController: AlertController,
-  ) { }
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
     this.carregarAvaliacoes();
@@ -80,15 +87,19 @@ export class InformacoesRendimentosPage implements OnInit {
       const startDate = new Date(`${dataInicio}T00:00:00.000Z`);
       const endDate = new Date(`${dataFim}T23:59:59.999Z`);
 
-      query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
-        ref.where('dataAtividade', '>=', startDate.toISOString()).where('dataAtividade', '<=', endDate.toISOString())
+      query = this.firestore.collection<Avaliacao>(
+        'avaliacaoAtividades',
+        (ref) =>
+          ref
+            .where('dataAtividade', '>=', startDate.toISOString())
+            .where('dataAtividade', '<=', endDate.toISOString())
       );
     } else {
       query = this.firestore.collection<Avaliacao>('avaliacaoAtividades');
     }
 
-    query.snapshotChanges().subscribe(avaliacoes => {
-      this.avaliacoes = avaliacoes.map(a => {
+    query.snapshotChanges().subscribe((avaliacoes) => {
+      this.avaliacoes = avaliacoes.map((a) => {
         const data = a.payload.doc.data() as Avaliacao;
         const id = a.payload.doc.id;
         return { ...data, id };
@@ -110,29 +121,36 @@ export class InformacoesRendimentosPage implements OnInit {
       const startDate = new Date(`${dataInicio}T00:00:00.000Z`);
       const endDate = new Date(`${dataFinal}T23:59:59.999Z`);
 
-      query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
-        ref.where('dataAtividade', '>=', startDate.toISOString())
-          .where('dataAtividade', '<=', endDate.toISOString())
-          .where('categoria', '==', categoria)
+      query = this.firestore.collection<Avaliacao>(
+        'avaliacaoAtividades',
+        (ref) =>
+          ref
+            .where('dataAtividade', '>=', startDate.toISOString())
+            .where('dataAtividade', '<=', endDate.toISOString())
+            .where('categoria', '==', categoria)
       );
     } else if (dataInicio && dataFinal) {
       const startDate = new Date(`${dataInicio}T00:00:00.000Z`);
       const endDate = new Date(`${dataFinal}T23:59:59.999Z`);
 
-      query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
-        ref.where('dataAtividade', '>=', startDate.toISOString())
-          .where('dataAtividade', '<=', endDate.toISOString())
+      query = this.firestore.collection<Avaliacao>(
+        'avaliacaoAtividades',
+        (ref) =>
+          ref
+            .where('dataAtividade', '>=', startDate.toISOString())
+            .where('dataAtividade', '<=', endDate.toISOString())
       );
     } else if (categoria) {
-      query = this.firestore.collection<Avaliacao>('avaliacaoAtividades', ref =>
-        ref.where('categoria', '==', categoria)
+      query = this.firestore.collection<Avaliacao>(
+        'avaliacaoAtividades',
+        (ref) => ref.where('categoria', '==', categoria)
       );
     } else {
       query = this.firestore.collection<Avaliacao>('avaliacaoAtividades');
     }
 
-    query.snapshotChanges().subscribe(avaliacoes => {
-      this.avaliacoes = avaliacoes.map(a => {
+    query.snapshotChanges().subscribe((avaliacoes) => {
+      this.avaliacoes = avaliacoes.map((a) => {
         const data = a.payload.doc.data() as Avaliacao;
         const id = a.payload.doc.id;
         return { ...data, id };
@@ -140,7 +158,6 @@ export class InformacoesRendimentosPage implements OnInit {
       this.ordenarAvaliacoesPorPontuacao();
     });
   }
-
 
   // filtrarAvaliacoes(form: any) {
   //   const { dataInicio, dataFinal } = form;
@@ -170,14 +187,15 @@ export class InformacoesRendimentosPage implements OnInit {
           cssClass: 'secondary',
           handler: () => {
             console.log('Exclusão cancelada');
-          }
-        }, {
+          },
+        },
+        {
           text: 'Excluir',
           handler: () => {
             this.excluirAvaliacao(id, event);
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
 
     await alert.present();
@@ -185,18 +203,23 @@ export class InformacoesRendimentosPage implements OnInit {
 
   excluirAvaliacao(id: string, event: Event) {
     event.stopPropagation();
-    this.firestore.collection('avaliacaoAtividades').doc(id).delete().then(() => {
-      console.log('Avaliação excluída com sucesso');
-    }).catch(error => {
-      console.error('Erro ao excluir avaliação: ', error);
-    });
+    this.firestore
+      .collection('avaliacaoAtividades')
+      .doc(id)
+      .delete()
+      .then(() => {
+        console.log('Avaliação excluída com sucesso');
+      })
+      .catch((error) => {
+        console.error('Erro ao excluir avaliação: ', error);
+      });
   }
 
   async openPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PopoverComponent,
       event: ev,
-      translucent: true
+      translucent: true,
     });
     popover.onDidDismiss().then((data) => {
       if (data && data.data) {
@@ -217,13 +240,20 @@ export class InformacoesRendimentosPage implements OnInit {
     this.printReport(reportContent);
   }
 
-
   generateRankingReport(): string {
     const rankIcons: { [key: number]: string } = {
-      1: '../../assets/icon/ranktop1.png',
-      2: '../../assets/icon/ranktop2.png',
-      3: '../../assets/icon/ranktop3.png'
+      1: 'assets/icon/ranktop1.png',
+      2: 'assets/icon/ranktop2.png',
+      3: 'assets/icon/ranktop3.png',
     };
+
+    const dateActual = new Intl.DateTimeFormat('pt-BR', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(new Date());
 
     let reportContent = `
     <style>
@@ -295,22 +325,27 @@ export class InformacoesRendimentosPage implements OnInit {
         </p>
     </div>`;
 
-    const categorias = this.avaliacoes.reduce((acc: { [key: string]: Avaliacao[] }, avaliacao) => {
-      if (!acc[avaliacao.categoria]) {
-        acc[avaliacao.categoria] = [];
-      }
-      acc[avaliacao.categoria].push(avaliacao);
-      return acc;
-    }, {});
+    const categorias = this.avaliacoes.reduce(
+      (acc: { [key: string]: Avaliacao[] }, avaliacao) => {
+        if (!acc[avaliacao.categoria]) {
+          acc[avaliacao.categoria] = [];
+        }
+        acc[avaliacao.categoria].push(avaliacao);
+        return acc;
+      },
+      {}
+    );
 
     for (const categoria in categorias) {
-      const top3 = categorias[categoria].sort((a, b) => {
-        if (categoria === 'Inovação') {
-          return b.nota - a.nota;
-        } else {
-          return b.pontuacao - a.pontuacao;
-        }
-      }).slice(0, 3);
+      const top3 = categorias[categoria]
+        .sort((a, b) => {
+          if (categoria === 'Inovação') {
+            return b.nota - a.nota;
+          } else {
+            return b.pontuacao - a.pontuacao;
+          }
+        })
+        .slice(0, 3);
 
       reportContent += `
         <h2>${categoria}</h2>
@@ -318,7 +353,9 @@ export class InformacoesRendimentosPage implements OnInit {
             <thead>
                 <tr>
                     <th>Rank</th>
-                    <th>${categoria === 'Liderança' ? 'Setor' : 'Colaborador'}</th>
+                    <th>${
+                      categoria === 'Liderança' ? 'Setor' : 'Colaborador'
+                    }</th>
                     <th>${categoria === 'Inovação' ? 'Nota' : 'Pontuação'}</th>
                 </tr>
             </thead>
@@ -328,11 +365,21 @@ export class InformacoesRendimentosPage implements OnInit {
         reportContent += `
             <tr>
                 <td class="icons">
-                    <img src="${rankIcons[index + 1]}" alt="Ícone do Top ${index + 1}" class="rank-icon">
+                    <img src="${rankIcons[index + 1]}" alt="Ícone do Top ${
+          index + 1
+        }" class="rank-icon">
                     ${index + 1}°
                 </td>
-                <td>${categoria === 'Liderança' ? avaliacao.setor : avaliacao.colaborador}</td>
-                <td>${categoria === 'Inovação' ? avaliacao.nota : avaliacao.pontuacao}</td>
+                <td>${
+                  categoria === 'Liderança'
+                    ? avaliacao.setor
+                    : avaliacao.colaborador
+                }</td>
+                <td>${
+                  categoria === 'Inovação'
+                    ? avaliacao.nota
+                    : avaliacao.pontuacao
+                }</td>
             </tr>`;
       });
 
@@ -344,10 +391,10 @@ export class InformacoesRendimentosPage implements OnInit {
     // Calcular média de pontuação ou nota por setor
     const mediaPontuacaoSetores: { [key: string]: number } = {};
     const contagemSetores: { [key: string]: number } = {};
-    const colaboradoresPorSetores = this.ordenarSetores()
+    const colaboradoresPorSetores = this.ordenarSetores();
     const totalPontuacao: { [key: string]: number } = {};
 
-    this.avaliacoes.forEach(avaliacao => {
+    this.avaliacoes.forEach((avaliacao) => {
       const setor = avaliacao.setor.trim();
       if (!totalPontuacao[setor]) {
         totalPontuacao[setor] = 0;
@@ -360,10 +407,13 @@ export class InformacoesRendimentosPage implements OnInit {
     });
 
     for (const setor in totalPontuacao) {
-      mediaPontuacaoSetores[setor] = totalPontuacao[setor] / colaboradoresPorSetores[setor];
+      mediaPontuacaoSetores[setor] =
+        totalPontuacao[setor] / colaboradoresPorSetores[setor];
     }
 
-    const sortedSetores = Object.keys(mediaPontuacaoSetores).sort((a, b) => mediaPontuacaoSetores[b] - mediaPontuacaoSetores[a]);
+    const sortedSetores = Object.keys(mediaPontuacaoSetores).sort(
+      (a, b) => mediaPontuacaoSetores[b] - mediaPontuacaoSetores[a]
+    );
 
     reportContent += `
     <h2>Liderança</h2>
@@ -381,7 +431,9 @@ export class InformacoesRendimentosPage implements OnInit {
       reportContent += `
         <tr>
             <td class="icons">
-                    <img src="${rankIcons[index + 1]}" alt="Ícone do Top ${index + 1}" class="rank-icon">
+                    <img src="${rankIcons[index + 1]}" alt="Ícone do Top ${
+        index + 1
+      }" class="rank-icon">
                     ${index + 1}°
             </td>
             <td>${setor}</td>
@@ -399,7 +451,7 @@ export class InformacoesRendimentosPage implements OnInit {
         Endereço: Edifício Rio Pacaás Novos, Av. Farquar, 2986 - Pedrinhas, Porto Velho - RO, 76801-470<br>
         Telefone: (69) 3216-5318<br>
         Página: <span class="pageNumber"></span><br>
-        Data e hora de impressão: <span class="printDateTime"></span>
+        Data e hora de impressão: <span class="printDateTime">${dateActual}</span>
         </p>
     </div>`;
 
@@ -467,18 +519,26 @@ export class InformacoesRendimentosPage implements OnInit {
         <thead>
           <tr>
             <th>Colaborador</th>
-             <th>${this.avaliacoes.some(avaliacao => avaliacao.categoria === 'Inovação') ? 'Pontuação/Nota' : 'Pontuação'}</th>
+             <th>${
+               this.avaliacoes.some(
+                 (avaliacao) => avaliacao.categoria === 'Inovação'
+               )
+                 ? 'Pontuação/Nota'
+                 : 'Pontuação'
+             }</th>
           </tr>
         </thead>
         <tbody>`;
 
     this.avaliacoes.forEach((avaliacao) => {
-      reportContent +=
-        `<tr>
+      reportContent += `<tr>
             <td>${avaliacao.colaborador}</td>
-           <td>${avaliacao.categoria === 'Inovação' ? avaliacao.nota : avaliacao.pontuacao}</td>
+           <td>${
+             avaliacao.categoria === 'Inovação'
+               ? avaliacao.nota
+               : avaliacao.pontuacao
+           }</td>
       </tr>`;
-
     });
 
     reportContent += `

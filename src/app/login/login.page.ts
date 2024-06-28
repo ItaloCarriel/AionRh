@@ -69,6 +69,7 @@ export class LoginPage {
     }
   }
 
+
   async showInvalidCredentialsAlert() {
     const alert = await this.alertCtrl.create({
       header: 'Erro de autenticação',

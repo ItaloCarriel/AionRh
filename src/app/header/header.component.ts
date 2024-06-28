@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
@@ -18,11 +19,15 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent  implements OnInit {
+export class HeaderComponent   {
   @Input() pageTitle: string = 'AIÓN';
 
-  constructor() { }
+  constructor(private router: Router) { }
 
-   ngOnInit(){}
+ 
+   goHome(){
+    this.router.navigate(['/']);
+  }
+
 
 }
