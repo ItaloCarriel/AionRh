@@ -35,7 +35,7 @@ ion-icon[name="trash"] {
 }
 
 .calendario {
-  background-color: #7c107c99;
+  background-color: #7c107c;
   color: #ffffff;
   width: 50%;
   max-width: 200px;
@@ -73,4 +73,8 @@ ion-icon[name="trash"] {
 .ion-align-items-end {
   display: flex;
   justify-content: flex-end;
+}
+
+.content-ltr {
+  --background: #fff;
 }

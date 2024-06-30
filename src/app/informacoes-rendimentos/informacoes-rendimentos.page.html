@@ -4,19 +4,33 @@
   <ion-grid class="grid">
     <ion-row>
       <ion-col>
-        <ion-button fill="outline" color="#7c107c" routerLink="/criar-avaliacao">
+        <ion-button
+          fill="outline"
+          color="#7c107c"
+          routerLink="/criar-avaliacao"
+        >
           CRIAR
         </ion-button>
       </ion-col>
       <ion-col class="d-flex justify-content-center">
         <!-- Adicione um identificador ao botão de impressão -->
-        <ion-button id="print-button" fill="clear" size="small" (click)="openPopover($event)">
+        <ion-button
+          id="print-button"
+          fill="clear"
+          size="small"
+          (click)="openPopover($event)"
+        >
           <ion-icon name="print"></ion-icon>
           Imprimir
         </ion-button>
       </ion-col>
       <ion-col class="ion-text-end">
-        <ion-button fill="outline" class="botao-filtrar" color="#7c107c" (click)="openFilterMenu()">
+        <ion-button
+          fill="outline"
+          class="botao-filtrar"
+          color="#7c107c"
+          (click)="openFilterMenu()"
+        >
           <ion-icon name="funnel"></ion-icon>
           Filtrar
         </ion-button>
@@ -33,28 +47,42 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <form #filtroForm="ngForm" (ngSubmit)="filtrarAvaliacoes(filtroForm.value)">
+      <form
+        #filtroForm="ngForm"
+        (ngSubmit)="filtrarAvaliacoes(filtroForm.value)"
+      >
         <ion-grid>
           <ion-row>
             <ion-col>
               <p>Data de Início</p>
-              <ion-item>
-                <input type="date" class="calendario" name="dataInicio" ngModel />
-              </ion-item>
+
+              <input
+                type="date"
+                class="calendario w-100"
+                name="dataInicio"
+                ngModel
+              />
             </ion-col>
             <ion-col>
               <p>Data de Fim</p>
-              <ion-item>
-                <input type="date" class="calendario" name="dataFinal" ngModel />
-              </ion-item>
+              <input
+                type="date"
+                class="calendario w-100"
+                name="dataFinal"
+                ngModel
+              />
             </ion-col>
             <ion-col>
               <ion-item>
                 <ion-label>Categoria</ion-label>
                 <ion-select name="categoria" ngModel>
                   <ion-select-option value="">Nenhum</ion-select-option>
-                  <ion-select-option value="Inovação">Inovação</ion-select-option>
-                  <ion-select-option value="Colaboração">Colaboração</ion-select-option>
+                  <ion-select-option value="Inovação"
+                    >Inovação</ion-select-option
+                  >
+                  <ion-select-option value="Colaboração"
+                    >Colaboração</ion-select-option
+                  >
                   <ion-select-option value="Desenvolvimento Pessoal">
                     Desenvolvimento Pessoal
                   </ion-select-option>
@@ -62,7 +90,9 @@
               </ion-item>
             </ion-col>
             <ion-col>
-              <ion-button type="submit" size="" fill="outline" color="#7c107c">Filtrar</ion-button>
+              <ion-button type="submit" size="" fill="outline" color="#7c107c"
+                >Filtrar</ion-button
+              >
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -74,12 +104,16 @@
     <ion-grid style="font-size: 12px" class="container-conteudo">
       <div class="card">
         <div class="table-responsive rounded">
-          <table class="table align-middle table-edge table-nowrap mb-0 table-hover table-borderless">
+          <table
+            class="table align-middle table-edge table-nowrap mb-0 table-hover table-borderless"
+          >
             <thead class="table-light">
               <tr>
                 <th scope="col" title="Nome Completo">Colaborador</th>
                 <th scope="col" title="Categoria">Categoria</th>
-                <th scope="col" title="Capacitação Prevista no PAC">Capacitação Prevista no PAC</th>
+                <th scope="col" title="Capacitação Prevista no PAC">
+                  Capacitação Prevista no PAC
+                </th>
                 <th scope="col" title="Carga Horária">Carga Horária</th>
                 <th scope="col" title="Pontuação">Pontuação/Nota</th>
                 <th scope="col" title="Data Atividade">Data Atividade</th>
@@ -89,14 +123,22 @@
             <tbody class="p-2">
               <ng-template [ngIf]="avaliacoes.length === 0">
                 <tr class="o_data_row">
-                  <td colspan="7" class="text-center p-3">Ainda não existem avaliações. <a routerLink="/criar-avaliacao">por favor crie uma primeiramente.</a></td>
+                  <td colspan="7" class="text-center p-3">
+                    Ainda não existem avaliações.
+                    <a routerLink="/criar-avaliacao"
+                      >por favor crie uma primeiramente.</a
+                    >
+                  </td>
                 </tr>
               </ng-template>
               <ng-container *ngFor="let avaliacao of avaliacoes">
                 <tr class="o_data_row" (dblclick)="editarAvaliacao(avaliacao)">
                   <td>{{ avaliacao.colaborador }}</td>
                   <td>
-                    <span class="badge w-50 p-2 tw-bold" [ngClass]="getCategoriaClass(avaliacao.categoria)">
+                    <span
+                      class="badge w-50 p-2 tw-bold"
+                      [ngClass]="getCategoriaClass(avaliacao.categoria)"
+                    >
                       {{ avaliacao.categoria }}
                     </span>
                   </td>
