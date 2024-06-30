@@ -7,7 +7,7 @@ ion-icon[name="trash"] {
   color: rgba(253, 0, 0, 0.5);
 
   &:hover {
-    color: rgba(253, 0, 0, .8);
+    color: rgba(253, 0, 0, 0.8);
   }
 }
 
@@ -35,9 +35,8 @@ ion-icon[name="trash"] {
 }
 
 .calendario {
-  background-color: #7c107c99;;
+  background-color: #7c107c99;
   color: #ffffff;
-  border-radius: 4px;
   width: 50%;
   max-width: 200px;
   padding: 2px;
@@ -45,7 +44,7 @@ ion-icon[name="trash"] {
   font-size: 18px;
   border: none;
   border-radius: 3px;
- }
+}
 
 .filtrar {
   background-color: #914891;
@@ -54,28 +53,21 @@ ion-icon[name="trash"] {
   margin-top: 10px;
   height: 10px;
 }
-.botao-filtrar{
+.botao-filtrar {
   height: 2px;
 }
 .card-container {
-  background-color: #e6c9c900;;
-  padding: 48px;
-  border-radius: 10px;
+  background-color: #e6c9c900;
   margin: 20px;
-  box-shadow: 4px -6px 26px -25px rgba(0, 0, 0, 0.8509803922);
   height: auto;
 }
 
-.card-container .ion-grid {
-  margin: 0;
-}
-.container-conteudo{
-  border-radius: 10px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.20);
-  padding: 15px;
+.container-conteudo {
+  padding: 48px 16px;
   width: auto;
 }
-#print-button{
+
+#print-button {
   align-items: end;
 }
 .ion-align-items-end {
