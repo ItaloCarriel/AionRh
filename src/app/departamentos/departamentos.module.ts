@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { DepartamentosPageRoutingModule } from './departamentos-routing.module';
 
 import { DepartamentosPage } from './departamentos.page';
+import { HeaderComponent } from '../header/header.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    HeaderComponent,
     DepartamentosPageRoutingModule
   ],
   declarations: [DepartamentosPage]
