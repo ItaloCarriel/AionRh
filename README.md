@@ -15,6 +15,9 @@ AionRH é uma plataforma desenvolvida para gerenciar as atividades realizadas pe
 
 ```bash
 git clone https://github.com/ItaloCarriel/AionRh.git
+
+## ou tente esse:
+git clone https://gitlab.setic.ro.gov.br/supel/winx/AionRh
 ```
 
 2. Instale as dependências do projeto:
